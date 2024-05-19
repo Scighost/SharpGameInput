@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-windows</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <LangVersion>9</LangVersion> <!-- For function pointers -->
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

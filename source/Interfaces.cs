@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 
@@ -49,7 +50,7 @@ public unsafe partial interface IGameInput
     [PreserveSig]
     int GetCurrentReading(
         GameInputKind inputKind,
-        [Optional] IGameInputDevice device,
+        [Optional] IGameInputDevice? device,
         out IGameInputReading reading
     );
 
@@ -57,7 +58,7 @@ public unsafe partial interface IGameInput
     int GetNextReading(
         IGameInputReading referenceReading,
         GameInputKind inputKind,
-        [Optional] IGameInputDevice device,
+        [Optional] IGameInputDevice? device,
         out IGameInputReading reading
     );
 
@@ -65,7 +66,7 @@ public unsafe partial interface IGameInput
     int GetPreviousReading(
         IGameInputReading referenceReading,
         GameInputKind inputKind,
-        [Optional] IGameInputDevice device,
+        [Optional] IGameInputDevice? device,
         out IGameInputReading reading
     );
 
@@ -78,7 +79,7 @@ public unsafe partial interface IGameInput
 
     [PreserveSig]
     int RegisterReadingCallback(
-        [Optional] IGameInputDevice device,
+        [Optional] IGameInputDevice? device,
         GameInputKind inputKind,
         float analogThreshold,
         [Optional] void* context,
@@ -88,7 +89,7 @@ public unsafe partial interface IGameInput
 
     [PreserveSig]
     int RegisterDeviceCallback(
-        [Optional] IGameInputDevice device,
+        [Optional] IGameInputDevice? device,
         GameInputKind inputKind,
         GameInputDeviceStatus statusFilter,
         GameInputEnumerationKind enumerationKind,
@@ -99,7 +100,7 @@ public unsafe partial interface IGameInput
 
     [PreserveSig]
     int RegisterGuideButtonCallback(
-        [Optional] IGameInputDevice device,
+        [Optional] IGameInputDevice? device,
         [Optional] void* context,
         GameInputGuideButtonCallback callbackFunc,
         [Optional] out GameInputCallbackToken callbackToken
@@ -107,7 +108,7 @@ public unsafe partial interface IGameInput
 
     [PreserveSig]
     int RegisterKeyboardLayoutCallback(
-        [Optional] IGameInputDevice device,
+        [Optional] IGameInputDevice? device,
         [Optional] void* context,
         GameInputKeyboardLayoutCallback callbackFunc,
         [Optional] out GameInputCallbackToken callbackToken
@@ -198,7 +199,7 @@ public unsafe partial interface IGameInputReading
     [PreserveSig]
     [return: MarshalAs(UnmanagedType.U1)]
     bool GetRawReport(
-        out IGameInputRawDeviceReport? report
+        [NotNullWhen(true)] out IGameInputRawDeviceReport? report
     );
 
     [PreserveSig]

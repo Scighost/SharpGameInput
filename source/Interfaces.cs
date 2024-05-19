@@ -412,7 +412,7 @@ public unsafe partial interface IGameInputDispatcher
 
     [PreserveSig]
     int OpenWaitHandle(
-        out void* waitHandle
+        out nint waitHandle
     );
 }
 
@@ -468,7 +468,7 @@ public unsafe partial interface IGameInputRawDeviceReport
     );
 
     [PreserveSig]
-    GameInputRawDeviceReportInfo GetReportInfo();
+    GameInputRawDeviceReportInfo* GetReportInfo();
 
     [PreserveSig]
     nuint GetRawDataSize();

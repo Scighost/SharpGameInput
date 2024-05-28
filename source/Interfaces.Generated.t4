@@ -144,6 +144,23 @@ void ForwardMethod(string returnType, string name, params (string type, string n
     string fnPtrType = $"delegate* unmanaged[Stdcall]<{string.Join(", ", fnPtrParams)}>";
 #>
         {
+            ThrowHelper.CheckHandle(this);
+<#
+    foreach (var parameter in parameters)
+    {
+        var (type, flags) = GetTypeModifiers(parameter.type);
+        if ((flags & (TypeMarker_Out | TypeMarker_Nullable)) != 0)
+            continue;
+
+        if (interfaceTypes.Contains(type))
+        {
+#>
+            ThrowHelper.CheckHandle(<#= parameter.name #>);
+<#
+        }
+    }
+#>
+
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
             var fnPtr = (<#= fnPtrType #>)vtable[<#= IUnknownMethodCount + methodIndex++ #>];

@@ -35,9 +35,20 @@ int methodIndex = 0;
 void DefineInterface(string name, Action makeMethods)
 {
 #>
-    public sealed unsafe partial class <#= name #> : InterfaceHandle
+    public sealed unsafe partial class <#= name #> : SafeHandle
     {
-        internal <#= name #>(IntPtr handle) : base(handle) {}
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
+        internal <#= name #>(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            SetHandle(handle);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            return Marshal.Release(handle) >= 0;
+        }
 <#
     methodIndex = 0;
     makeMethods();
@@ -150,11 +161,12 @@ void ForwardMethod(string returnType, string name, params (string type, string n
             if ((flags & TypeMarker_Out) != 0)
             {
 #>
-            <#= parameter.name #> = new(<#= parameter.name #>_handle);
+            <#= parameter.name #> = new(<#= parameter.name #>_handle, ownsHandle: true);
 <#
             }
         }
     }
+
     if (!isVoid)
     {
 #>

@@ -12,9 +12,20 @@ using System.Runtime.InteropServices;
 
 namespace SharpGameInput
 {
-    public sealed unsafe partial class IGameInput : InterfaceHandle
+    public sealed unsafe partial class IGameInput : SafeHandle
     {
-        internal IGameInput(IntPtr handle) : base(handle) {}
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
+        internal IGameInput(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            SetHandle(handle);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            return Marshal.Release(handle) >= 0;
+        }
 
         public ulong GetCurrentTimestamp()
         {
@@ -46,7 +57,7 @@ namespace SharpGameInput
                 out IntPtr reading_handle
             );
 
-            reading = new(reading_handle);
+            reading = new(reading_handle, ownsHandle: true);
             return result;
         }
 
@@ -69,7 +80,7 @@ namespace SharpGameInput
                 out IntPtr reading_handle
             );
 
-            reading = new(reading_handle);
+            reading = new(reading_handle, ownsHandle: true);
             return result;
         }
 
@@ -92,7 +103,7 @@ namespace SharpGameInput
                 out IntPtr reading_handle
             );
 
-            reading = new(reading_handle);
+            reading = new(reading_handle, ownsHandle: true);
             return result;
         }
 
@@ -113,7 +124,7 @@ namespace SharpGameInput
                 out IntPtr reading_handle
             );
 
-            reading = new(reading_handle);
+            reading = new(reading_handle, ownsHandle: true);
             return result;
         }
 
@@ -261,7 +272,7 @@ namespace SharpGameInput
                 out IntPtr dispatcher_handle
             );
 
-            dispatcher = new(dispatcher_handle);
+            dispatcher = new(dispatcher_handle, ownsHandle: true);
             return result;
         }
 
@@ -280,7 +291,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
             return result;
         }
 
@@ -299,7 +310,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
             return result;
         }
 
@@ -318,7 +329,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
             return result;
         }
 
@@ -337,7 +348,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
             return result;
         }
 
@@ -356,7 +367,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
             return result;
         }
 
@@ -398,9 +409,20 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputReading : InterfaceHandle
+    public sealed unsafe partial class IGameInputReading : SafeHandle
     {
-        internal IGameInputReading(IntPtr handle) : base(handle) {}
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
+        internal IGameInputReading(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            SetHandle(handle);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            return Marshal.Release(handle) >= 0;
+        }
 
         public GameInputKind GetInputKind()
         {
@@ -457,7 +479,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
         }
 
         public bool GetRawReport(
@@ -473,7 +495,7 @@ namespace SharpGameInput
                 out IntPtr report_handle
             );
 
-            report = new(report_handle);
+            report = new(report_handle, ownsHandle: true);
             return result;
         }
 
@@ -745,9 +767,20 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputDevice : InterfaceHandle
+    public sealed unsafe partial class IGameInputDevice : SafeHandle
     {
-        internal IGameInputDevice(IntPtr handle) : base(handle) {}
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
+        internal IGameInputDevice(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            SetHandle(handle);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            return Marshal.Release(handle) >= 0;
+        }
 
         public GameInputDeviceInfo* GetDeviceInfo()
         {
@@ -807,7 +840,7 @@ namespace SharpGameInput
                 out IntPtr effect_handle
             );
 
-            effect = new(effect_handle);
+            effect = new(effect_handle, ownsHandle: true);
             return result;
         }
 
@@ -933,7 +966,7 @@ namespace SharpGameInput
                 out IntPtr report_handle
             );
 
-            report = new(report_handle);
+            report = new(report_handle, ownsHandle: true);
             return result;
         }
 
@@ -952,7 +985,7 @@ namespace SharpGameInput
                 out IntPtr report_handle
             );
 
-            report = new(report_handle);
+            report = new(report_handle, ownsHandle: true);
             return result;
         }
 
@@ -1003,7 +1036,7 @@ namespace SharpGameInput
                 out IntPtr responseReport_handle
             );
 
-            responseReport = new(responseReport_handle);
+            responseReport = new(responseReport_handle, ownsHandle: true);
             return result;
         }
 
@@ -1062,9 +1095,20 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputDispatcher : InterfaceHandle
+    public sealed unsafe partial class IGameInputDispatcher : SafeHandle
     {
-        internal IGameInputDispatcher(IntPtr handle) : base(handle) {}
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
+        internal IGameInputDispatcher(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            SetHandle(handle);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            return Marshal.Release(handle) >= 0;
+        }
 
         public bool Dispatch(
             ulong quotaInMicroseconds
@@ -1099,9 +1143,20 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputForceFeedbackEffect : InterfaceHandle
+    public sealed unsafe partial class IGameInputForceFeedbackEffect : SafeHandle
     {
-        internal IGameInputForceFeedbackEffect(IntPtr handle) : base(handle) {}
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
+        internal IGameInputForceFeedbackEffect(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            SetHandle(handle);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            return Marshal.Release(handle) >= 0;
+        }
 
         public void GetDevice(
             out IGameInputDevice device
@@ -1116,7 +1171,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
         }
 
         public uint GetMotorIndex()
@@ -1220,9 +1275,20 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputRawDeviceReport : InterfaceHandle
+    public sealed unsafe partial class IGameInputRawDeviceReport : SafeHandle
     {
-        internal IGameInputRawDeviceReport(IntPtr handle) : base(handle) {}
+        public override bool IsInvalid => handle == IntPtr.Zero;
+
+        internal IGameInputRawDeviceReport(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            SetHandle(handle);
+        }
+
+        protected override bool ReleaseHandle()
+        {
+            return Marshal.Release(handle) >= 0;
+        }
 
         public void GetDevice(
             out IGameInputDevice device
@@ -1237,7 +1303,7 @@ namespace SharpGameInput
                 out IntPtr device_handle
             );
 
-            device = new(device_handle);
+            device = new(device_handle, ownsHandle: true);
         }
 
         public GameInputRawDeviceReportInfo* GetReportInfo()

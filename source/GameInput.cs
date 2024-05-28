@@ -21,7 +21,7 @@ namespace SharpGameInput
         {
             result = Create(out IntPtr handle);
             bool success = result >= 0 && handle != IntPtr.Zero;
-            gameInput = success ? new(handle) : null;
+            gameInput = success ? new(handle, ownsHandle: true) : null;
             return success;
         }
     }

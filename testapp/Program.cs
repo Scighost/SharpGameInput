@@ -26,35 +26,38 @@ for (; !Console.KeyAvailable; Thread.Sleep(1))
         continue;
     }
 
-    // Ignore unchanged reports
-    ulong timestamp = reading.GetTimestamp();
-    if (lastTimestamp == timestamp)
-        continue;
-    lastTimestamp = timestamp;
-
-    // Read report
-    if (!reading.GetRawReport(out var rawReport))
+    using (reading)
     {
-        Console.WriteLine($"Could not get raw report!");
-        continue;
-    }
+        // Ignore unchanged reports
+        ulong timestamp = reading.GetTimestamp();
+        if (lastTimestamp == timestamp)
+            continue;
+        lastTimestamp = timestamp;
 
-    unsafe
-    {
-        uint reportId = rawReport.GetReportInfo()->id;
-        nuint size = rawReport.GetRawDataSize();
-        Console.Write($"Report ID: {reportId}, size: {size}, ");
-
-        // Read report data
-        if (buffer == null || (nuint)buffer.Length < size)
-            buffer = new byte[size];
-
-        fixed (byte* ptr = buffer)
+        // Read report
+        if (!reading.GetRawReport(out var rawReport))
         {
-            nuint readSize = rawReport.GetRawData(size, ptr);
-            Debug.Assert(size == readSize);
+            Console.WriteLine($"Could not get raw report!");
+            continue;
         }
-    }
 
-    Console.WriteLine(BitConverter.ToString(buffer));
+        using (rawReport) unsafe
+        {
+            uint reportId = rawReport.GetReportInfo()->id;
+            nuint size = rawReport.GetRawDataSize();
+            Console.Write($"Report ID: {reportId}, size: {size}, ");
+
+            // Read report data
+            if (buffer == null || (nuint)buffer.Length < size)
+                buffer = new byte[size];
+
+            fixed (byte* ptr = buffer)
+            {
+                nuint readSize = rawReport.GetRawData(size, ptr);
+                Debug.Assert(size == readSize);
+            }
+        }
+
+        Console.WriteLine(BitConverter.ToString(buffer));
+    }
 }

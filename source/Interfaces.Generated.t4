@@ -25,6 +25,8 @@ HashSet<string> interfaceTypes = new()
     "IGameInputRawDeviceReport",
 };
 
+HashSet<string> lightInterfaceTypes = interfaceTypes.Select((n) => "Light" + n).ToHashSet();
+
 const int TypeMarker_In = 0x01;
 const int TypeMarker_Out = 0x02;
 const int TypeMarker_Nullable = 0x04;
@@ -48,6 +50,60 @@ void DefineInterface(string name, Action makeMethods)
         protected override bool ReleaseHandle()
         {
             return Marshal.Release(handle) >= 0;
+        }
+<#
+    methodIndex = 0;
+    makeMethods();
+#>
+    }
+<#
+}
+
+void DefineLightInterface(string name, Action makeMethods)
+{
+    DefineInterface(name, makeMethods);
+#>
+
+    public unsafe ref partial struct Light<#= name #>
+    {
+        private IntPtr handle;
+        private bool ownsHandle;
+
+        public bool IsInvalid => handle == IntPtr.Zero;
+        public bool IsClosed { get; private set; }
+
+        internal Light<#= name #>(IntPtr handle, bool ownsHandle)
+        {
+            this.handle = handle;
+            this.ownsHandle = ownsHandle;
+            IsClosed = false;
+        }
+
+        public void Dispose()
+        {
+            if (!IsClosed && !IsInvalid && ownsHandle)
+            {
+                Marshal.Release(handle);
+                IsClosed = true;
+            }
+        }
+
+        public IntPtr DangerousGetHandle() => handle;
+
+        public <#= name #> ToSafeHandle()
+        {
+            // Invalidate this handle
+            IsClosed = true;
+
+            // Move handle to the new instance
+            var handle = this.handle;
+            this.handle = IntPtr.Zero;
+            return new(handle, ownsHandle);
+        }
+
+        public static implicit operator Light<#= name #>(<#= name #> instance)
+        {
+            return new(instance.DangerousGetHandle(), ownsHandle: false);
         }
 <#
     methodIndex = 0;
@@ -107,7 +163,7 @@ void ForwardMethod(string returnType, string name, params (string type, string n
     {
         var (type, flags) = GetTypeModifiers(p.type);
 
-        if (interfaceTypes.Contains(type))
+        if (interfaceTypes.Contains(type) || lightInterfaceTypes.Contains(type))
             type = "IntPtr";
 
         if ((flags & TypeMarker_In) != 0)
@@ -123,7 +179,7 @@ void ForwardMethod(string returnType, string name, params (string type, string n
         string argument = p.name;
         var (type, flags) = GetTypeModifiers(p.type);
 
-        if (interfaceTypes.Contains(type))
+        if (interfaceTypes.Contains(type) || lightInterfaceTypes.Contains(type))
         {
             if ((flags & TypeMarker_Out) != 0)
                 argument = $"IntPtr {p.name}_handle";
@@ -144,7 +200,7 @@ void ForwardMethod(string returnType, string name, params (string type, string n
     string fnPtrType = $"delegate* unmanaged[Stdcall]<{string.Join(", ", fnPtrParams)}>";
 #>
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 <#
     foreach (var parameter in parameters)
     {
@@ -156,6 +212,12 @@ void ForwardMethod(string returnType, string name, params (string type, string n
         {
 #>
             ThrowHelper.CheckHandle(<#= parameter.name #>);
+<#
+        }
+        else if (lightInterfaceTypes.Contains(type))
+        {
+#>
+            ThrowHelper.CheckDisposed(<#= parameter.name #>.IsInvalid || <#= parameter.name #>.IsClosed, nameof(<#= parameter.name #>));
 <#
         }
     }
@@ -173,7 +235,7 @@ void ForwardMethod(string returnType, string name, params (string type, string n
     foreach (var parameter in parameters)
     {
         var (type, flags) = GetTypeModifiers(parameter.type);
-        if (interfaceTypes.Contains(type))
+        if (interfaceTypes.Contains(type) || lightInterfaceTypes.Contains(type))
         {
             if ((flags & TypeMarker_Out) != 0)
             {
@@ -205,24 +267,24 @@ namespace SharpGameInput
         ForwardMethod("int", "GetCurrentReading", 
             ("GameInputKind", "inputKind"),
             ("IGameInputDevice?", "device"),
-            ("out IGameInputReading", "reading")
+            ("out LightIGameInputReading", "reading")
         );
         ForwardMethod("int", "GetNextReading", 
             ("IGameInputReading", "referenceReading"),
             ("GameInputKind", "inputKind"),
             ("IGameInputDevice?", "device"),
-            ("out IGameInputReading", "reading")
+            ("out LightIGameInputReading", "reading")
         );
         ForwardMethod("int", "GetPreviousReading",
             ("IGameInputReading", "referenceReading"),
             ("GameInputKind", "inputKind"),
             ("IGameInputDevice?", "device"),
-            ("out IGameInputReading", "reading")
+            ("out LightIGameInputReading", "reading")
         );
         ForwardMethod("int", "GetTemporalReading",
             ("ulong", "timestamp"),
             ("IGameInputDevice", "device"),
-            ("out IGameInputReading", "reading")
+            ("out LightIGameInputReading", "reading")
         );
 
         ForwardMethod("int", "RegisterReadingCallback",
@@ -304,7 +366,7 @@ namespace SharpGameInput
 #>
 
 <#
-    DefineInterface("IGameInputReading", () =>
+    DefineLightInterface("IGameInputReading", () =>
     {
         ForwardMethod("GameInputKind", "GetInputKind");
         ForwardMethod("ulong", "GetSequenceNumber",
@@ -312,10 +374,10 @@ namespace SharpGameInput
         );
         ForwardMethod("ulong", "GetTimestamp");
         ForwardMethod("void", "GetDevice",
-            ("out IGameInputDevice", "device")
+            ("out LightIGameInputDevice", "device")
         );
         ForwardMethod("bool", "GetRawReport",
-            ("out IGameInputRawDeviceReport", "report")
+            ("out LightIGameInputRawDeviceReport", "report")
         );
 
         ForwardMethod("uint", "GetControllerAxisCount");
@@ -379,7 +441,7 @@ namespace SharpGameInput
 #>
 
 <#
-    DefineInterface("IGameInputDevice", () =>
+    DefineLightInterface("IGameInputDevice", () =>
     {
         ForwardMethod("GameInputDeviceInfo*", "GetDeviceInfo");
         ForwardMethod("GameInputDeviceStatus", "GetDeviceStatus");
@@ -390,7 +452,7 @@ namespace SharpGameInput
         ForwardMethod("int", "CreateForceFeedbackEffect",
             ("uint", "motorIndex"),
             ("in GameInputForceFeedbackParams", "ffbParams"),
-            ("out IGameInputForceFeedbackEffect", "effect")
+            ("out LightIGameInputForceFeedbackEffect", "effect")
         );
 
         ForwardMethod("bool", "IsForceFeedbackMotorPoweredOn",
@@ -419,21 +481,21 @@ namespace SharpGameInput
         ForwardMethod("int", "CreateRawDeviceReport",
             ("uint", "reportId"),
             ("GameInputRawDeviceReportKind", "reportKind"),
-            ("out IGameInputRawDeviceReport", "report")
+            ("out LightIGameInputRawDeviceReport", "report")
         );
         ForwardMethod("int", "GetRawDeviceFeature",
             ("uint", "reportId"),
-            ("out IGameInputRawDeviceReport", "report")
+            ("out LightIGameInputRawDeviceReport", "report")
         );
         ForwardMethod("int", "SetRawDeviceFeature",
-            ("IGameInputRawDeviceReport", "report")
+            ("LightIGameInputRawDeviceReport", "report")
         );
         ForwardMethod("int", "SendRawDeviceOutput",
-            ("IGameInputRawDeviceReport", "report")
+            ("LightIGameInputRawDeviceReport", "report")
         );
         ForwardMethod("int", "SendRawDeviceOutputWithResponse",
-            ("IGameInputRawDeviceReport", "requestReport"),
-            ("out IGameInputRawDeviceReport", "responseReport")
+            ("LightIGameInputRawDeviceReport", "requestReport"),
+            ("out LightIGameInputRawDeviceReport", "responseReport")
         );
 
         ForwardMethod("int", "ExecuteRawDeviceIoControl",
@@ -464,10 +526,10 @@ namespace SharpGameInput
 #>
 
 <#
-    DefineInterface("IGameInputForceFeedbackEffect", () =>
+    DefineLightInterface("IGameInputForceFeedbackEffect", () =>
     {
         ForwardMethod("void", "GetDevice",
-            ("out IGameInputDevice", "device")
+            ("out LightIGameInputDevice", "device")
         );
 
         ForwardMethod("uint", "GetMotorIndex");
@@ -492,10 +554,10 @@ namespace SharpGameInput
 #>
 
 <#
-    DefineInterface("IGameInputRawDeviceReport", () =>
+    DefineLightInterface("IGameInputRawDeviceReport", () =>
     {
         ForwardMethod("void", "GetDevice",
-            ("out IGameInputDevice", "device")
+            ("out LightIGameInputDevice", "device")
         );
 
         ForwardMethod("GameInputRawDeviceReportInfo*", "GetReportInfo");

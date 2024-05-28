@@ -29,7 +29,7 @@ namespace SharpGameInput
 
         public ulong GetCurrentTimestamp()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -45,10 +45,10 @@ namespace SharpGameInput
         public int GetCurrentReading(
             GameInputKind inputKind,
             IGameInputDevice? device,
-            out IGameInputReading reading
+            out LightIGameInputReading reading
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -69,10 +69,10 @@ namespace SharpGameInput
             IGameInputReading referenceReading,
             GameInputKind inputKind,
             IGameInputDevice? device,
-            out IGameInputReading reading
+            out LightIGameInputReading reading
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
             ThrowHelper.CheckHandle(referenceReading);
 
             var thisPtr = handle;
@@ -95,10 +95,10 @@ namespace SharpGameInput
             IGameInputReading referenceReading,
             GameInputKind inputKind,
             IGameInputDevice? device,
-            out IGameInputReading reading
+            out LightIGameInputReading reading
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
             ThrowHelper.CheckHandle(referenceReading);
 
             var thisPtr = handle;
@@ -120,10 +120,10 @@ namespace SharpGameInput
         public int GetTemporalReading(
             ulong timestamp,
             IGameInputDevice device,
-            out IGameInputReading reading
+            out LightIGameInputReading reading
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
             ThrowHelper.CheckHandle(device);
 
             var thisPtr = handle;
@@ -150,7 +150,7 @@ namespace SharpGameInput
             out ulong callbackToken
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -179,7 +179,7 @@ namespace SharpGameInput
             out ulong callbackToken
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -206,7 +206,7 @@ namespace SharpGameInput
             out ulong callbackToken
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -230,7 +230,7 @@ namespace SharpGameInput
             out ulong callbackToken
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -251,7 +251,7 @@ namespace SharpGameInput
             ulong callbackToken
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -269,7 +269,7 @@ namespace SharpGameInput
             ulong timeoutInMicroseconds
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -288,7 +288,7 @@ namespace SharpGameInput
             out IGameInputDispatcher dispatcher
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -308,7 +308,7 @@ namespace SharpGameInput
             out IGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -329,7 +329,7 @@ namespace SharpGameInput
             out IGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -350,7 +350,7 @@ namespace SharpGameInput
             out IGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -371,7 +371,7 @@ namespace SharpGameInput
             out IGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -392,7 +392,7 @@ namespace SharpGameInput
             out IGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -415,7 +415,7 @@ namespace SharpGameInput
             byte collectionNumber
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -436,7 +436,7 @@ namespace SharpGameInput
             GameInputFocusPolicy policy
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -467,7 +467,7 @@ namespace SharpGameInput
 
         public GameInputKind GetInputKind()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -484,7 +484,7 @@ namespace SharpGameInput
             GameInputKind inputKind
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -500,7 +500,7 @@ namespace SharpGameInput
 
         public ulong GetTimestamp()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -514,10 +514,10 @@ namespace SharpGameInput
         }
 
         public void GetDevice(
-            out IGameInputDevice device
+            out LightIGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -532,10 +532,10 @@ namespace SharpGameInput
         }
 
         public bool GetRawReport(
-            out IGameInputRawDeviceReport report
+            out LightIGameInputRawDeviceReport report
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -552,7 +552,7 @@ namespace SharpGameInput
 
         public uint GetControllerAxisCount()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -570,7 +570,7 @@ namespace SharpGameInput
             float* stateArray
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -587,7 +587,7 @@ namespace SharpGameInput
 
         public uint GetControllerButtonCount()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -605,7 +605,7 @@ namespace SharpGameInput
             bool* stateArray
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -622,7 +622,7 @@ namespace SharpGameInput
 
         public uint GetControllerSwitchCount()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -640,7 +640,7 @@ namespace SharpGameInput
             GameInputSwitchPosition* stateArray
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -657,7 +657,7 @@ namespace SharpGameInput
 
         public uint GetKeyCount()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -675,7 +675,7 @@ namespace SharpGameInput
             GameInputKeyState* stateArray
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -694,7 +694,7 @@ namespace SharpGameInput
             out GameInputMouseState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -710,7 +710,7 @@ namespace SharpGameInput
 
         public uint GetTouchCount()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -728,7 +728,7 @@ namespace SharpGameInput
             GameInputTouchState* stateArray
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -747,7 +747,7 @@ namespace SharpGameInput
             out GameInputMotionState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -765,7 +765,7 @@ namespace SharpGameInput
             out GameInputArcadeStickState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -783,7 +783,7 @@ namespace SharpGameInput
             out GameInputFlightStickState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -801,7 +801,7 @@ namespace SharpGameInput
             out GameInputGamepadState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -819,7 +819,7 @@ namespace SharpGameInput
             out GameInputRacingWheelState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -837,7 +837,436 @@ namespace SharpGameInput
             out GameInputUiNavigationState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputUiNavigationState, bool>)vtable[24];
+
+            var result = fnPtr(
+                thisPtr,
+                out state
+            );
+
+            return result;
+        }
+    }
+
+    public unsafe ref partial struct LightIGameInputReading
+    {
+        private IntPtr handle;
+        private bool ownsHandle;
+
+        public bool IsInvalid => handle == IntPtr.Zero;
+        public bool IsClosed { get; private set; }
+
+        internal LightIGameInputReading(IntPtr handle, bool ownsHandle)
+        {
+            this.handle = handle;
+            this.ownsHandle = ownsHandle;
+            IsClosed = false;
+        }
+
+        public void Dispose()
+        {
+            if (!IsClosed && !IsInvalid && ownsHandle)
+            {
+                Marshal.Release(handle);
+                IsClosed = true;
+            }
+        }
+
+        public IntPtr DangerousGetHandle() => handle;
+
+        public IGameInputReading ToSafeHandle()
+        {
+            // Invalidate this handle
+            IsClosed = true;
+
+            // Move handle to the new instance
+            var handle = this.handle;
+            this.handle = IntPtr.Zero;
+            return new(handle, ownsHandle);
+        }
+
+        public static implicit operator LightIGameInputReading(IGameInputReading instance)
+        {
+            return new(instance.DangerousGetHandle(), ownsHandle: false);
+        }
+
+        public GameInputKind GetInputKind()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, GameInputKind>)vtable[3];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public ulong GetSequenceNumber(
+            GameInputKind inputKind
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, GameInputKind, ulong>)vtable[4];
+
+            var result = fnPtr(
+                thisPtr,
+                inputKind
+            );
+
+            return result;
+        }
+
+        public ulong GetTimestamp()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, ulong>)vtable[5];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public void GetDevice(
+            out LightIGameInputDevice device
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out IntPtr, void>)vtable[6];
+
+            fnPtr(
+                thisPtr,
+                out IntPtr device_handle
+            );
+
+            device = new(device_handle, ownsHandle: true);
+        }
+
+        public bool GetRawReport(
+            out LightIGameInputRawDeviceReport report
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out IntPtr, bool>)vtable[7];
+
+            var result = fnPtr(
+                thisPtr,
+                out IntPtr report_handle
+            );
+
+            report = new(report_handle, ownsHandle: true);
+            return result;
+        }
+
+        public uint GetControllerAxisCount()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint>)vtable[8];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public uint GetControllerAxisState(
+            uint stateArrayCount,
+            float* stateArray
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, float*, uint>)vtable[9];
+
+            var result = fnPtr(
+                thisPtr,
+                stateArrayCount,
+                stateArray
+            );
+
+            return result;
+        }
+
+        public uint GetControllerButtonCount()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint>)vtable[10];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public uint GetControllerButtonState(
+            uint stateArrayCount,
+            bool* stateArray
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, bool*, uint>)vtable[11];
+
+            var result = fnPtr(
+                thisPtr,
+                stateArrayCount,
+                stateArray
+            );
+
+            return result;
+        }
+
+        public uint GetControllerSwitchCount()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint>)vtable[12];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public uint GetControllerSwitchState(
+            uint stateArrayCount,
+            GameInputSwitchPosition* stateArray
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, GameInputSwitchPosition*, uint>)vtable[13];
+
+            var result = fnPtr(
+                thisPtr,
+                stateArrayCount,
+                stateArray
+            );
+
+            return result;
+        }
+
+        public uint GetKeyCount()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint>)vtable[14];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public uint GetKeyState(
+            uint stateArrayCount,
+            GameInputKeyState* stateArray
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, GameInputKeyState*, uint>)vtable[15];
+
+            var result = fnPtr(
+                thisPtr,
+                stateArrayCount,
+                stateArray
+            );
+
+            return result;
+        }
+
+        public bool GetMouseState(
+            out GameInputMouseState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputMouseState, bool>)vtable[16];
+
+            var result = fnPtr(
+                thisPtr,
+                out state
+            );
+
+            return result;
+        }
+
+        public uint GetTouchCount()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint>)vtable[17];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public uint GetTouchState(
+            uint stateArrayCount,
+            GameInputTouchState* stateArray
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, GameInputTouchState*, uint>)vtable[18];
+
+            var result = fnPtr(
+                thisPtr,
+                stateArrayCount,
+                stateArray
+            );
+
+            return result;
+        }
+
+        public bool GetMotionState(
+            out GameInputMotionState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputMotionState, bool>)vtable[19];
+
+            var result = fnPtr(
+                thisPtr,
+                out state
+            );
+
+            return result;
+        }
+
+        public bool GetArcadeStickState(
+            out GameInputArcadeStickState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputArcadeStickState, bool>)vtable[20];
+
+            var result = fnPtr(
+                thisPtr,
+                out state
+            );
+
+            return result;
+        }
+
+        public bool GetFlightStickState(
+            out GameInputFlightStickState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputFlightStickState, bool>)vtable[21];
+
+            var result = fnPtr(
+                thisPtr,
+                out state
+            );
+
+            return result;
+        }
+
+        public bool GetGamepadState(
+            out GameInputGamepadState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputGamepadState, bool>)vtable[22];
+
+            var result = fnPtr(
+                thisPtr,
+                out state
+            );
+
+            return result;
+        }
+
+        public bool GetRacingWheelState(
+            out GameInputRacingWheelState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputRacingWheelState, bool>)vtable[23];
+
+            var result = fnPtr(
+                thisPtr,
+                out state
+            );
+
+            return result;
+        }
+
+        public bool GetUiNavigationState(
+            out GameInputUiNavigationState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -869,7 +1298,7 @@ namespace SharpGameInput
 
         public GameInputDeviceInfo* GetDeviceInfo()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -884,7 +1313,7 @@ namespace SharpGameInput
 
         public GameInputDeviceStatus GetDeviceStatus()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -901,7 +1330,7 @@ namespace SharpGameInput
             out GameInputBatteryState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -917,10 +1346,10 @@ namespace SharpGameInput
         public int CreateForceFeedbackEffect(
             uint motorIndex,
             in GameInputForceFeedbackParams ffbParams,
-            out IGameInputForceFeedbackEffect effect
+            out LightIGameInputForceFeedbackEffect effect
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -941,7 +1370,7 @@ namespace SharpGameInput
             uint motorIndex
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -960,7 +1389,7 @@ namespace SharpGameInput
             float masterGain
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -979,7 +1408,7 @@ namespace SharpGameInput
             in GameInputHapticFeedbackParams hapticParams
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -998,7 +1427,7 @@ namespace SharpGameInput
             in GameInputRumbleParams rumbleParams
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1015,7 +1444,7 @@ namespace SharpGameInput
             bool enabled
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1030,7 +1459,7 @@ namespace SharpGameInput
 
         public void SendInputSynchronizationHint()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1044,7 +1473,7 @@ namespace SharpGameInput
 
         public void PowerOff()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1059,10 +1488,10 @@ namespace SharpGameInput
         public int CreateRawDeviceReport(
             uint reportId,
             GameInputRawDeviceReportKind reportKind,
-            out IGameInputRawDeviceReport report
+            out LightIGameInputRawDeviceReport report
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1081,10 +1510,10 @@ namespace SharpGameInput
 
         public int GetRawDeviceFeature(
             uint reportId,
-            out IGameInputRawDeviceReport report
+            out LightIGameInputRawDeviceReport report
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1101,11 +1530,11 @@ namespace SharpGameInput
         }
 
         public int SetRawDeviceFeature(
-            IGameInputRawDeviceReport report
+            LightIGameInputRawDeviceReport report
         )
         {
-            ThrowHelper.CheckHandle(this);
-            ThrowHelper.CheckHandle(report);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+            ThrowHelper.CheckDisposed(report.IsInvalid || report.IsClosed, nameof(report));
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1120,11 +1549,11 @@ namespace SharpGameInput
         }
 
         public int SendRawDeviceOutput(
-            IGameInputRawDeviceReport report
+            LightIGameInputRawDeviceReport report
         )
         {
-            ThrowHelper.CheckHandle(this);
-            ThrowHelper.CheckHandle(report);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+            ThrowHelper.CheckDisposed(report.IsInvalid || report.IsClosed, nameof(report));
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1139,12 +1568,12 @@ namespace SharpGameInput
         }
 
         public int SendRawDeviceOutputWithResponse(
-            IGameInputRawDeviceReport requestReport,
-            out IGameInputRawDeviceReport responseReport
+            LightIGameInputRawDeviceReport requestReport,
+            out LightIGameInputRawDeviceReport responseReport
         )
         {
-            ThrowHelper.CheckHandle(this);
-            ThrowHelper.CheckHandle(requestReport);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+            ThrowHelper.CheckDisposed(requestReport.IsInvalid || requestReport.IsClosed, nameof(requestReport));
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1169,7 +1598,7 @@ namespace SharpGameInput
             out nuint outputSize
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1192,7 +1621,7 @@ namespace SharpGameInput
             ulong timeoutInMicroseconds
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1208,7 +1637,403 @@ namespace SharpGameInput
 
         public void ReleaseExclusiveRawDeviceAccess()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, void>)vtable[21];
+
+            fnPtr(
+                thisPtr
+            );
+
+        }
+    }
+
+    public unsafe ref partial struct LightIGameInputDevice
+    {
+        private IntPtr handle;
+        private bool ownsHandle;
+
+        public bool IsInvalid => handle == IntPtr.Zero;
+        public bool IsClosed { get; private set; }
+
+        internal LightIGameInputDevice(IntPtr handle, bool ownsHandle)
+        {
+            this.handle = handle;
+            this.ownsHandle = ownsHandle;
+            IsClosed = false;
+        }
+
+        public void Dispose()
+        {
+            if (!IsClosed && !IsInvalid && ownsHandle)
+            {
+                Marshal.Release(handle);
+                IsClosed = true;
+            }
+        }
+
+        public IntPtr DangerousGetHandle() => handle;
+
+        public IGameInputDevice ToSafeHandle()
+        {
+            // Invalidate this handle
+            IsClosed = true;
+
+            // Move handle to the new instance
+            var handle = this.handle;
+            this.handle = IntPtr.Zero;
+            return new(handle, ownsHandle);
+        }
+
+        public static implicit operator LightIGameInputDevice(IGameInputDevice instance)
+        {
+            return new(instance.DangerousGetHandle(), ownsHandle: false);
+        }
+
+        public GameInputDeviceInfo* GetDeviceInfo()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, GameInputDeviceInfo*>)vtable[3];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public GameInputDeviceStatus GetDeviceStatus()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, GameInputDeviceStatus>)vtable[4];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public void GetBatteryState(
+            out GameInputBatteryState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputBatteryState, void>)vtable[5];
+
+            fnPtr(
+                thisPtr,
+                out state
+            );
+
+        }
+
+        public int CreateForceFeedbackEffect(
+            uint motorIndex,
+            in GameInputForceFeedbackParams ffbParams,
+            out LightIGameInputForceFeedbackEffect effect
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, in GameInputForceFeedbackParams, out IntPtr, int>)vtable[6];
+
+            var result = fnPtr(
+                thisPtr,
+                motorIndex,
+                in ffbParams,
+                out IntPtr effect_handle
+            );
+
+            effect = new(effect_handle, ownsHandle: true);
+            return result;
+        }
+
+        public bool IsForceFeedbackMotorPoweredOn(
+            uint motorIndex
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, bool>)vtable[7];
+
+            var result = fnPtr(
+                thisPtr,
+                motorIndex
+            );
+
+            return result;
+        }
+
+        public void SetForceFeedbackMotorGain(
+            uint motorIndex,
+            float masterGain
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, float, void>)vtable[8];
+
+            fnPtr(
+                thisPtr,
+                motorIndex,
+                masterGain
+            );
+
+        }
+
+        public int SetHapticMotorState(
+            uint motorIndex,
+            in GameInputHapticFeedbackParams hapticParams
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, in GameInputHapticFeedbackParams, int>)vtable[9];
+
+            var result = fnPtr(
+                thisPtr,
+                motorIndex,
+                in hapticParams
+            );
+
+            return result;
+        }
+
+        public void SetRumbleState(
+            in GameInputRumbleParams rumbleParams
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, in GameInputRumbleParams, void>)vtable[10];
+
+            fnPtr(
+                thisPtr,
+                in rumbleParams
+            );
+
+        }
+
+        public void SetInputSynchronizationState(
+            bool enabled
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, bool, void>)vtable[11];
+
+            fnPtr(
+                thisPtr,
+                enabled
+            );
+
+        }
+
+        public void SendInputSynchronizationHint()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, void>)vtable[12];
+
+            fnPtr(
+                thisPtr
+            );
+
+        }
+
+        public void PowerOff()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, void>)vtable[13];
+
+            fnPtr(
+                thisPtr
+            );
+
+        }
+
+        public int CreateRawDeviceReport(
+            uint reportId,
+            GameInputRawDeviceReportKind reportKind,
+            out LightIGameInputRawDeviceReport report
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, GameInputRawDeviceReportKind, out IntPtr, int>)vtable[14];
+
+            var result = fnPtr(
+                thisPtr,
+                reportId,
+                reportKind,
+                out IntPtr report_handle
+            );
+
+            report = new(report_handle, ownsHandle: true);
+            return result;
+        }
+
+        public int GetRawDeviceFeature(
+            uint reportId,
+            out LightIGameInputRawDeviceReport report
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, out IntPtr, int>)vtable[15];
+
+            var result = fnPtr(
+                thisPtr,
+                reportId,
+                out IntPtr report_handle
+            );
+
+            report = new(report_handle, ownsHandle: true);
+            return result;
+        }
+
+        public int SetRawDeviceFeature(
+            LightIGameInputRawDeviceReport report
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+            ThrowHelper.CheckDisposed(report.IsInvalid || report.IsClosed, nameof(report));
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, int>)vtable[16];
+
+            var result = fnPtr(
+                thisPtr,
+                report.DangerousGetHandle()
+            );
+
+            return result;
+        }
+
+        public int SendRawDeviceOutput(
+            LightIGameInputRawDeviceReport report
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+            ThrowHelper.CheckDisposed(report.IsInvalid || report.IsClosed, nameof(report));
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, int>)vtable[17];
+
+            var result = fnPtr(
+                thisPtr,
+                report.DangerousGetHandle()
+            );
+
+            return result;
+        }
+
+        public int SendRawDeviceOutputWithResponse(
+            LightIGameInputRawDeviceReport requestReport,
+            out LightIGameInputRawDeviceReport responseReport
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+            ThrowHelper.CheckDisposed(requestReport.IsInvalid || requestReport.IsClosed, nameof(requestReport));
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, out IntPtr, int>)vtable[18];
+
+            var result = fnPtr(
+                thisPtr,
+                requestReport.DangerousGetHandle(),
+                out IntPtr responseReport_handle
+            );
+
+            responseReport = new(responseReport_handle, ownsHandle: true);
+            return result;
+        }
+
+        public int ExecuteRawDeviceIoControl(
+            uint controlCode,
+            nuint inputBufferSize,
+            void* inputBuffer,
+            nuint outputBufferSize,
+            void* outputBuffer,
+            out nuint outputSize
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, nuint, void*, nuint, void*, out nuint, int>)vtable[19];
+
+            var result = fnPtr(
+                thisPtr,
+                controlCode,
+                inputBufferSize,
+                inputBuffer,
+                outputBufferSize,
+                outputBuffer,
+                out outputSize
+            );
+
+            return result;
+        }
+
+        public bool AcquireExclusiveRawDeviceAccess(
+            ulong timeoutInMicroseconds
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, ulong, bool>)vtable[20];
+
+            var result = fnPtr(
+                thisPtr,
+                timeoutInMicroseconds
+            );
+
+            return result;
+        }
+
+        public void ReleaseExclusiveRawDeviceAccess()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1240,7 +2065,7 @@ namespace SharpGameInput
             ulong quotaInMicroseconds
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1258,7 +2083,7 @@ namespace SharpGameInput
             out nint waitHandle
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1289,10 +2114,10 @@ namespace SharpGameInput
         }
 
         public void GetDevice(
-            out IGameInputDevice device
+            out LightIGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1308,7 +2133,7 @@ namespace SharpGameInput
 
         public uint GetMotorIndex()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1323,7 +2148,7 @@ namespace SharpGameInput
 
         public float GetGain()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1340,7 +2165,7 @@ namespace SharpGameInput
             float gain
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1357,7 +2182,7 @@ namespace SharpGameInput
             out GameInputForceFeedbackParams ffbParams
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1374,7 +2199,7 @@ namespace SharpGameInput
             in GameInputForceFeedbackParams ffbParams
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1390,7 +2215,7 @@ namespace SharpGameInput
 
         public GameInputFeedbackEffectState GetState()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1407,7 +2232,182 @@ namespace SharpGameInput
             GameInputFeedbackEffectState state
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, GameInputFeedbackEffectState, void>)vtable[10];
+
+            fnPtr(
+                thisPtr,
+                state
+            );
+
+        }
+    }
+
+    public unsafe ref partial struct LightIGameInputForceFeedbackEffect
+    {
+        private IntPtr handle;
+        private bool ownsHandle;
+
+        public bool IsInvalid => handle == IntPtr.Zero;
+        public bool IsClosed { get; private set; }
+
+        internal LightIGameInputForceFeedbackEffect(IntPtr handle, bool ownsHandle)
+        {
+            this.handle = handle;
+            this.ownsHandle = ownsHandle;
+            IsClosed = false;
+        }
+
+        public void Dispose()
+        {
+            if (!IsClosed && !IsInvalid && ownsHandle)
+            {
+                Marshal.Release(handle);
+                IsClosed = true;
+            }
+        }
+
+        public IntPtr DangerousGetHandle() => handle;
+
+        public IGameInputForceFeedbackEffect ToSafeHandle()
+        {
+            // Invalidate this handle
+            IsClosed = true;
+
+            // Move handle to the new instance
+            var handle = this.handle;
+            this.handle = IntPtr.Zero;
+            return new(handle, ownsHandle);
+        }
+
+        public static implicit operator LightIGameInputForceFeedbackEffect(IGameInputForceFeedbackEffect instance)
+        {
+            return new(instance.DangerousGetHandle(), ownsHandle: false);
+        }
+
+        public void GetDevice(
+            out LightIGameInputDevice device
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out IntPtr, void>)vtable[3];
+
+            fnPtr(
+                thisPtr,
+                out IntPtr device_handle
+            );
+
+            device = new(device_handle, ownsHandle: true);
+        }
+
+        public uint GetMotorIndex()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint>)vtable[4];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public float GetGain()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, float>)vtable[5];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public void SetGain(
+            float gain
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, float, void>)vtable[6];
+
+            fnPtr(
+                thisPtr,
+                gain
+            );
+
+        }
+
+        public void GetParams(
+            out GameInputForceFeedbackParams ffbParams
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out GameInputForceFeedbackParams, void>)vtable[7];
+
+            fnPtr(
+                thisPtr,
+                out ffbParams
+            );
+
+        }
+
+        public bool SetParams(
+            in GameInputForceFeedbackParams ffbParams
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, in GameInputForceFeedbackParams, bool>)vtable[8];
+
+            var result = fnPtr(
+                thisPtr,
+                in ffbParams
+            );
+
+            return result;
+        }
+
+        public GameInputFeedbackEffectState GetState()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, GameInputFeedbackEffectState>)vtable[9];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public void SetState(
+            GameInputFeedbackEffectState state
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1437,10 +2437,10 @@ namespace SharpGameInput
         }
 
         public void GetDevice(
-            out IGameInputDevice device
+            out LightIGameInputDevice device
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1456,7 +2456,7 @@ namespace SharpGameInput
 
         public GameInputRawDeviceReportInfo* GetReportInfo()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1471,7 +2471,7 @@ namespace SharpGameInput
 
         public nuint GetRawDataSize()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1489,7 +2489,7 @@ namespace SharpGameInput
             void* buffer
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1509,7 +2509,7 @@ namespace SharpGameInput
             void* buffer
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1529,7 +2529,7 @@ namespace SharpGameInput
             out long value
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1549,7 +2549,7 @@ namespace SharpGameInput
             long value
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1568,7 +2568,7 @@ namespace SharpGameInput
             uint itemIndex
         )
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -1584,7 +2584,211 @@ namespace SharpGameInput
 
         public bool ResetAllItems()
         {
-            ThrowHelper.CheckHandle(this);
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, bool>)vtable[11];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+    }
+
+    public unsafe ref partial struct LightIGameInputRawDeviceReport
+    {
+        private IntPtr handle;
+        private bool ownsHandle;
+
+        public bool IsInvalid => handle == IntPtr.Zero;
+        public bool IsClosed { get; private set; }
+
+        internal LightIGameInputRawDeviceReport(IntPtr handle, bool ownsHandle)
+        {
+            this.handle = handle;
+            this.ownsHandle = ownsHandle;
+            IsClosed = false;
+        }
+
+        public void Dispose()
+        {
+            if (!IsClosed && !IsInvalid && ownsHandle)
+            {
+                Marshal.Release(handle);
+                IsClosed = true;
+            }
+        }
+
+        public IntPtr DangerousGetHandle() => handle;
+
+        public IGameInputRawDeviceReport ToSafeHandle()
+        {
+            // Invalidate this handle
+            IsClosed = true;
+
+            // Move handle to the new instance
+            var handle = this.handle;
+            this.handle = IntPtr.Zero;
+            return new(handle, ownsHandle);
+        }
+
+        public static implicit operator LightIGameInputRawDeviceReport(IGameInputRawDeviceReport instance)
+        {
+            return new(instance.DangerousGetHandle(), ownsHandle: false);
+        }
+
+        public void GetDevice(
+            out LightIGameInputDevice device
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out IntPtr, void>)vtable[3];
+
+            fnPtr(
+                thisPtr,
+                out IntPtr device_handle
+            );
+
+            device = new(device_handle, ownsHandle: true);
+        }
+
+        public GameInputRawDeviceReportInfo* GetReportInfo()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, GameInputRawDeviceReportInfo*>)vtable[4];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public nuint GetRawDataSize()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, nuint>)vtable[5];
+
+            var result = fnPtr(
+                thisPtr
+            );
+
+            return result;
+        }
+
+        public nuint GetRawData(
+            nuint bufferSize,
+            void* buffer
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, nuint, void*, nuint>)vtable[6];
+
+            var result = fnPtr(
+                thisPtr,
+                bufferSize,
+                buffer
+            );
+
+            return result;
+        }
+
+        public bool SetRawData(
+            nuint bufferSize,
+            void* buffer
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, nuint, void*, bool>)vtable[7];
+
+            var result = fnPtr(
+                thisPtr,
+                bufferSize,
+                buffer
+            );
+
+            return result;
+        }
+
+        public bool GetItemValue(
+            uint itemIndex,
+            out long value
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, out long, bool>)vtable[8];
+
+            var result = fnPtr(
+                thisPtr,
+                itemIndex,
+                out value
+            );
+
+            return result;
+        }
+
+        public bool SetItemValue(
+            uint itemIndex,
+            long value
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, long, bool>)vtable[9];
+
+            var result = fnPtr(
+                thisPtr,
+                itemIndex,
+                value
+            );
+
+            return result;
+        }
+
+        public bool ResetItemValue(
+            uint itemIndex
+        )
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+
+            var thisPtr = handle;
+            var vtable = *(void***)thisPtr;
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, uint, bool>)vtable[10];
+
+            var result = fnPtr(
+                thisPtr,
+                itemIndex
+            );
+
+            return result;
+        }
+
+        public bool ResetAllItems()
+        {
+            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;

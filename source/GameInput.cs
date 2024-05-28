@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace SharpGameInput
@@ -13,14 +14,15 @@ namespace SharpGameInput
         [DllImport("gameinput.dll", EntryPoint = "GameInputCreate", CallingConvention = CallingConvention.StdCall)]
         private static extern int Create(out IntPtr gameInput);
 
-        public static int Create(out IGameInput gameInput)
+        public static bool Create([NotNullWhen(true)] out IGameInput? gameInput)
+            => Create(out gameInput, out _);
+
+        public static bool Create([NotNullWhen(true)] out IGameInput? gameInput, out int result)
         {
-            int result = Create(out IntPtr handle);
-            if (result >= 0 && handle != IntPtr.Zero)
-                gameInput = new(handle);
-            else
-                gameInput = null!;
-            return result;
+            result = Create(out IntPtr handle);
+            bool success = result >= 0 && handle != IntPtr.Zero;
+            gameInput = success ? new(handle) : null;
+            return success;
         }
     }
 }

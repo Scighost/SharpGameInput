@@ -6,8 +6,7 @@ using SharpGameInput;
 Console.WriteLine("Hello, World!");
 
 // Initialize GameInput
-int result = GameInput.Create(out var gameInput);
-if (result < 0)
+if (!GameInput.Create(out var gameInput, out int result))
 {
     Console.WriteLine($"Failed to create IGameInput: {result:X8}");
     return;

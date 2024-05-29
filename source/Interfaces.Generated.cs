@@ -141,7 +141,7 @@ namespace SharpGameInput
             return result;
         }
 
-        public int RegisterReadingCallback(
+        internal int RegisterReadingCallback(
             IGameInputDevice? device,
             GameInputKind inputKind,
             float analogThreshold,
@@ -169,7 +169,7 @@ namespace SharpGameInput
             return result;
         }
 
-        public int RegisterDeviceCallback(
+        internal int RegisterDeviceCallback(
             IGameInputDevice? device,
             GameInputKind inputKind,
             GameInputDeviceStatus statusFilter,
@@ -199,7 +199,7 @@ namespace SharpGameInput
             return result;
         }
 
-        public int RegisterGuideButtonCallback(
+        internal int RegisterGuideButtonCallback(
             IGameInputDevice? device,
             void* context,
             delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void> callbackFunc,
@@ -223,7 +223,7 @@ namespace SharpGameInput
             return result;
         }
 
-        public int RegisterKeyboardLayoutCallback(
+        internal int RegisterKeyboardLayoutCallback(
             IGameInputDevice? device,
             void* context,
             delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, uint, uint, void> callbackFunc,
@@ -247,7 +247,7 @@ namespace SharpGameInput
             return result;
         }
 
-        public void StopCallback(
+        internal void StopCallback(
             ulong callbackToken
         )
         {
@@ -264,7 +264,7 @@ namespace SharpGameInput
 
         }
 
-        public bool UnregisterCallback(
+        internal bool UnregisterCallback(
             ulong callbackToken,
             ulong timeoutInMicroseconds
         )
@@ -1422,7 +1422,7 @@ namespace SharpGameInput
             return Marshal.Release(handle) >= 0;
         }
 
-        public GameInputDeviceInfo* GetDeviceInfo()
+        private GameInputDeviceInfo* GetDeviceInfo()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
@@ -1858,7 +1858,7 @@ namespace SharpGameInput
             return new(instance.DangerousGetHandle(), ownsHandle: false);
         }
 
-        public GameInputDeviceInfo* GetDeviceInfo()
+        private GameInputDeviceInfo* GetDeviceInfo()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
@@ -2660,7 +2660,7 @@ namespace SharpGameInput
             device = new(device_handle, ownsHandle: true);
         }
 
-        public GameInputRawDeviceReportInfo* GetReportInfo()
+        private GameInputRawDeviceReportInfo* GetReportInfo()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
@@ -2904,7 +2904,7 @@ namespace SharpGameInput
             device = new(device_handle, ownsHandle: true);
         }
 
-        public GameInputRawDeviceReportInfo* GetReportInfo()
+        private GameInputRawDeviceReportInfo* GetReportInfo()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 

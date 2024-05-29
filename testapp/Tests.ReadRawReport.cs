@@ -41,7 +41,7 @@ internal partial class Tests
 
                 using (rawReport) unsafe
                 {
-                    uint reportId = rawReport.GetReportInfo()->id;
+                    uint reportId = rawReport.ReportInfo.id;
                     nuint size = rawReport.GetRawDataSize();
                     Console.Write($"Report ID: {reportId}, size: {size}, ");
 

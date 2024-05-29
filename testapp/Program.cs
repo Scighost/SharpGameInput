@@ -1,63 +1,60 @@
 using System;
-using System.Diagnostics;
-using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 using SharpGameInput;
+using SharpGameInput.TestApp;
 
-Console.WriteLine("Hello, World!");
+AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
 // Initialize GameInput
 if (!GameInput.Create(out var gameInput, out int result))
 {
-    Console.WriteLine($"Failed to create IGameInput: {result:X8}");
+    ConsoleUtility.WritePInvokeError("Failed to create IGameInput", result);
+    ConsoleUtility.WaitForKey("Press any key to exit...");
     return;
 }
 
-byte[]? buffer = null;
-ulong lastTimestamp = 0;
-
-for (; !Console.KeyAvailable; Thread.Sleep(1))
+using (gameInput)
 {
-    // Poll for raw reports
-    result = gameInput.GetCurrentReading(GameInputKind.RawDeviceReport, null, out var reading);
-    if (result < 0)
+    // List of available tests
+    List<(string name, Action<IGameInput> func)> tests =
+    [
+        ("Exit", null!),
+        ("Read Raw Reports", Tests.ReadRawReports),
+    ];
+    string[] choices = tests.Select((i) => i.name).ToArray();
+
+    // Don't pad the header on startup, but do after startup
+    bool padHeader = false;
+
+    while (true)
     {
-        if (result != (int)GameInputResult.ReadingNotFound)
-            Console.WriteLine($"Failed to get current reading: {result:X8}");
-        continue;
-    }
-
-    using (reading)
-    {
-        // Ignore unchanged reports
-        ulong timestamp = reading.GetTimestamp();
-        if (lastTimestamp == timestamp)
-            continue;
-        lastTimestamp = timestamp;
-
-        // Read report
-        if (!reading.GetRawReport(out var rawReport))
+        try
         {
-            Console.WriteLine($"Could not get raw report!");
-            continue;
-        }
+            ConsoleUtility.WriteMenuHeader("GameInput Tests", padHeader);
+            padHeader = true;
 
-        using (rawReport) unsafe
+            int choice = ConsoleUtility.PromptChoice("Select a test", choices);
+            if (choice == 0)
+                return;
+
+            tests[choice].func(gameInput);
+        }
+        catch (Exception ex)
         {
-            uint reportId = rawReport.GetReportInfo()->id;
-            nuint size = rawReport.GetRawDataSize();
-            Console.Write($"Report ID: {reportId}, size: {size}, ");
+            Console.WriteLine("An unhandled exception has occured:");
+            Console.WriteLine(ex);
 
-            // Read report data
-            if (buffer == null || (nuint)buffer.Length < size)
-                buffer = new byte[size];
-
-            fixed (byte* ptr = buffer)
-            {
-                nuint readSize = rawReport.GetRawData(size, ptr);
-                Debug.Assert(size == readSize);
-            }
+            var key = ConsoleUtility.WaitForKey("Press Escape to exit, or press any other key to go back to the main menu.");
+            if (key == ConsoleKey.Escape)
+                return;
         }
-
-        Console.WriteLine(BitConverter.ToString(buffer));
     }
+}
+
+static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
+{
+    Console.WriteLine("An unhandled exception has occured:");
+    Console.WriteLine(args.ExceptionObject);
+    ConsoleUtility.WaitForKey("Press any key to exit...");
 }

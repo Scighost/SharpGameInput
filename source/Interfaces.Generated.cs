@@ -12,20 +12,9 @@ using System.Runtime.InteropServices;
 
 namespace SharpGameInput
 {
-    public sealed unsafe partial class IGameInput : SafeHandle
+    public sealed unsafe partial class IGameInput : ComPtr
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        internal IGameInput(IntPtr handle, bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-            SetHandle(handle);
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return Marshal.Release(handle) >= 0;
-        }
+        internal IGameInput(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
         public ulong GetCurrentTimestamp()
         {
@@ -456,20 +445,9 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputReading : SafeHandle
+    public sealed unsafe partial class IGameInputReading : ComPtr
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        internal IGameInputReading(IntPtr handle, bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-            SetHandle(handle);
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return Marshal.Release(handle) >= 0;
-        }
+        internal IGameInputReading(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
         public GameInputKind GetInputKind()
         {
@@ -1407,20 +1385,9 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputDevice : SafeHandle
+    public sealed unsafe partial class IGameInputDevice : ComPtr
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        internal IGameInputDevice(IntPtr handle, bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-            SetHandle(handle);
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return Marshal.Release(handle) >= 0;
-        }
+        internal IGameInputDevice(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
         private GameInputDeviceInfo* GetDeviceInfo()
         {
@@ -2252,20 +2219,9 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputDispatcher : SafeHandle
+    public sealed unsafe partial class IGameInputDispatcher : ComPtr
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        internal IGameInputDispatcher(IntPtr handle, bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-            SetHandle(handle);
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return Marshal.Release(handle) >= 0;
-        }
+        internal IGameInputDispatcher(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
         public bool Dispatch(
             ulong quotaInMicroseconds
@@ -2304,20 +2260,9 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputForceFeedbackEffect : SafeHandle
+    public sealed unsafe partial class IGameInputForceFeedbackEffect : ComPtr
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        internal IGameInputForceFeedbackEffect(IntPtr handle, bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-            SetHandle(handle);
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return Marshal.Release(handle) >= 0;
-        }
+        internal IGameInputForceFeedbackEffect(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
         public void GetDevice(
             out LightIGameInputDevice device
@@ -2627,20 +2572,9 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputRawDeviceReport : SafeHandle
+    public sealed unsafe partial class IGameInputRawDeviceReport : ComPtr
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        internal IGameInputRawDeviceReport(IntPtr handle, bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-            SetHandle(handle);
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return Marshal.Release(handle) >= 0;
-        }
+        internal IGameInputRawDeviceReport(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
         public void GetDevice(
             out LightIGameInputDevice device

@@ -37,20 +37,9 @@ int methodIndex = 0;
 void DefineInterface(string name, Action makeMethods)
 {
 #>
-    public sealed unsafe partial class <#= name #> : SafeHandle
+    public sealed unsafe partial class <#= name #> : ComPtr
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
-
-        internal <#= name #>(IntPtr handle, bool ownsHandle)
-            : base(IntPtr.Zero, ownsHandle)
-        {
-            SetHandle(handle);
-        }
-
-        protected override bool ReleaseHandle()
-        {
-            return Marshal.Release(handle) >= 0;
-        }
+        internal <#= name #>(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 <#
     methodIndex = 0;
     makeMethods();

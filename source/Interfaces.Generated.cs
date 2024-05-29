@@ -325,7 +325,7 @@ namespace SharpGameInput
         }
 
         public int FindDeviceFromId(
-            in APP_LOCAL_DEVICE_ID value,
+            in APP_LOCAL_DEVICE_ID id,
             out IGameInputDevice device
         )
         {
@@ -337,7 +337,7 @@ namespace SharpGameInput
 
             var result = fnPtr(
                 thisPtr,
-                in value,
+                in id,
                 out IntPtr device_handle
             );
 
@@ -346,7 +346,7 @@ namespace SharpGameInput
         }
 
         public int FindDeviceFromObject(
-            nint value,
+            IntPtr pUnknown,
             out IGameInputDevice device
         )
         {
@@ -354,11 +354,11 @@ namespace SharpGameInput
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
-            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, nint, out IntPtr, int>)vtable[17];
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, out IntPtr, int>)vtable[17];
 
             var result = fnPtr(
                 thisPtr,
-                value,
+                pUnknown,
                 out IntPtr device_handle
             );
 
@@ -367,7 +367,7 @@ namespace SharpGameInput
         }
 
         public int FindDeviceFromPlatformHandle(
-            void* value,
+            IntPtr handle,
             out IGameInputDevice device
         )
         {
@@ -375,11 +375,11 @@ namespace SharpGameInput
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
-            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, void*, out IntPtr, int>)vtable[18];
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, out IntPtr, int>)vtable[18];
 
             var result = fnPtr(
                 thisPtr,
-                value,
+                handle,
                 out IntPtr device_handle
             );
 
@@ -388,7 +388,7 @@ namespace SharpGameInput
         }
 
         public int FindDeviceFromPlatformString(
-            char* value,
+            char* str,
             out IGameInputDevice device
         )
         {
@@ -400,7 +400,7 @@ namespace SharpGameInput
 
             var result = fnPtr(
                 thisPtr,
-                value,
+                str,
                 out IntPtr device_handle
             );
 
@@ -2080,14 +2080,14 @@ namespace SharpGameInput
         }
 
         public int OpenWaitHandle(
-            out nint waitHandle
+            out IntPtr waitHandle
         )
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
-            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out nint, int>)vtable[4];
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, out IntPtr, int>)vtable[4];
 
             var result = fnPtr(
                 thisPtr,

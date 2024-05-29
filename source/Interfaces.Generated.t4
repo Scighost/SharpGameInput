@@ -337,19 +337,19 @@ namespace SharpGameInput
         );
 
         ForwardMethod("int", "FindDeviceFromId",
-            ("in APP_LOCAL_DEVICE_ID", "value"),
+            ("in APP_LOCAL_DEVICE_ID", "id"),
             ("out IGameInputDevice", "device")
         );
         ForwardMethod("int", "FindDeviceFromObject",
-            ("nint", "value"),
+            ("IntPtr", "pUnknown"),
             ("out IGameInputDevice", "device")
         );
         ForwardMethod("int", "FindDeviceFromPlatformHandle",
-            ("void*", "value"),
+            ("IntPtr", "handle"),
             ("out IGameInputDevice", "device")
         );
         ForwardMethod("int", "FindDeviceFromPlatformString",
-            ("char*", "value"),
+            ("char*", "str"),
             ("out IGameInputDevice", "device")
         );
         ForwardMethod("int", "EnableOemDeviceSupport",
@@ -520,7 +520,7 @@ namespace SharpGameInput
             ("ulong", "quotaInMicroseconds")
         );
         ForwardMethod("int", "OpenWaitHandle",
-            ("out nint", "waitHandle")
+            ("out IntPtr", "waitHandle")
         );
     });
 #>

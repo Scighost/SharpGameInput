@@ -408,6 +408,12 @@ namespace SharpGameInput
             return result;
         }
 
+        public int FindDeviceFromPlatformString(string str, out IGameInputDevice device)
+        {
+            fixed (char* ptr = str)
+                return FindDeviceFromPlatformString(ptr, out device);
+        }
+
         public int EnableOemDeviceSupport(
             ushort vendorId,
             ushort productId,
@@ -585,6 +591,18 @@ namespace SharpGameInput
             return result;
         }
 
+        public uint GetControllerAxisState(float[] stateArray)
+        {
+            fixed (float* ptr = stateArray)
+                return GetControllerAxisState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetControllerAxisState(Span<float> stateArray)
+        {
+            fixed (float* ptr = stateArray)
+                return GetControllerAxisState((uint)stateArray.Length, ptr);
+        }
+
         public uint GetControllerButtonCount()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -618,6 +636,18 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public uint GetControllerButtonState(bool[] stateArray)
+        {
+            fixed (bool* ptr = stateArray)
+                return GetControllerButtonState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetControllerButtonState(Span<bool> stateArray)
+        {
+            fixed (bool* ptr = stateArray)
+                return GetControllerButtonState((uint)stateArray.Length, ptr);
         }
 
         public uint GetControllerSwitchCount()
@@ -655,6 +685,18 @@ namespace SharpGameInput
             return result;
         }
 
+        public uint GetControllerSwitchState(GameInputSwitchPosition[] stateArray)
+        {
+            fixed (GameInputSwitchPosition* ptr = stateArray)
+                return GetControllerSwitchState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetControllerSwitchState(Span<GameInputSwitchPosition> stateArray)
+        {
+            fixed (GameInputSwitchPosition* ptr = stateArray)
+                return GetControllerSwitchState((uint)stateArray.Length, ptr);
+        }
+
         public uint GetKeyCount()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -688,6 +730,18 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public uint GetKeyState(GameInputKeyState[] stateArray)
+        {
+            fixed (GameInputKeyState* ptr = stateArray)
+                return GetKeyState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetKeyState(Span<GameInputKeyState> stateArray)
+        {
+            fixed (GameInputKeyState* ptr = stateArray)
+                return GetKeyState((uint)stateArray.Length, ptr);
         }
 
         public bool GetMouseState(
@@ -741,6 +795,18 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public uint GetTouchState(GameInputTouchState[] stateArray)
+        {
+            fixed (GameInputTouchState* ptr = stateArray)
+                return GetTouchState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetTouchState(Span<GameInputTouchState> stateArray)
+        {
+            fixed (GameInputTouchState* ptr = stateArray)
+                return GetTouchState((uint)stateArray.Length, ptr);
         }
 
         public bool GetMotionState(
@@ -1014,6 +1080,18 @@ namespace SharpGameInput
             return result;
         }
 
+        public uint GetControllerAxisState(float[] stateArray)
+        {
+            fixed (float* ptr = stateArray)
+                return GetControllerAxisState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetControllerAxisState(Span<float> stateArray)
+        {
+            fixed (float* ptr = stateArray)
+                return GetControllerAxisState((uint)stateArray.Length, ptr);
+        }
+
         public uint GetControllerButtonCount()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -1047,6 +1125,18 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public uint GetControllerButtonState(bool[] stateArray)
+        {
+            fixed (bool* ptr = stateArray)
+                return GetControllerButtonState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetControllerButtonState(Span<bool> stateArray)
+        {
+            fixed (bool* ptr = stateArray)
+                return GetControllerButtonState((uint)stateArray.Length, ptr);
         }
 
         public uint GetControllerSwitchCount()
@@ -1084,6 +1174,18 @@ namespace SharpGameInput
             return result;
         }
 
+        public uint GetControllerSwitchState(GameInputSwitchPosition[] stateArray)
+        {
+            fixed (GameInputSwitchPosition* ptr = stateArray)
+                return GetControllerSwitchState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetControllerSwitchState(Span<GameInputSwitchPosition> stateArray)
+        {
+            fixed (GameInputSwitchPosition* ptr = stateArray)
+                return GetControllerSwitchState((uint)stateArray.Length, ptr);
+        }
+
         public uint GetKeyCount()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -1117,6 +1219,18 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public uint GetKeyState(GameInputKeyState[] stateArray)
+        {
+            fixed (GameInputKeyState* ptr = stateArray)
+                return GetKeyState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetKeyState(Span<GameInputKeyState> stateArray)
+        {
+            fixed (GameInputKeyState* ptr = stateArray)
+                return GetKeyState((uint)stateArray.Length, ptr);
         }
 
         public bool GetMouseState(
@@ -1170,6 +1284,18 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public uint GetTouchState(GameInputTouchState[] stateArray)
+        {
+            fixed (GameInputTouchState* ptr = stateArray)
+                return GetTouchState((uint)stateArray.Length, ptr);
+        }
+
+        public uint GetTouchState(Span<GameInputTouchState> stateArray)
+        {
+            fixed (GameInputTouchState* ptr = stateArray)
+                return GetTouchState((uint)stateArray.Length, ptr);
         }
 
         public bool GetMotionState(
@@ -1343,6 +1469,8 @@ namespace SharpGameInput
 
         }
 
+        public ref readonly GameInputDeviceInfo DeviceInfo => ref *GetDeviceInfo();
+
         public int CreateForceFeedbackEffect(
             uint motorIndex,
             in GameInputForceFeedbackParams ffbParams,
@@ -1647,6 +1775,44 @@ namespace SharpGameInput
                 thisPtr
             );
 
+        }
+
+        public int ExecuteRawDeviceIoControl(uint controlCode, byte[] inputBuffer, byte[] outputBuffer,
+            out nuint outputSize)
+        {
+            fixed (byte* inputPtr = inputBuffer)
+            fixed (byte* outputPtr = outputBuffer)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)inputBuffer.Length, inputPtr,
+                    (nuint)outputBuffer.Length, outputPtr,
+                    out outputSize
+                );
+        }
+
+        public int ExecuteRawDeviceIoControl(uint controlCode, ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer,
+            out nuint outputSize)
+        {
+            fixed (byte* inputPtr = inputBuffer)
+            fixed (byte* outputPtr = outputBuffer)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)inputBuffer.Length, inputPtr,
+                    (nuint)outputBuffer.Length, outputPtr,
+                    out outputSize
+                );
+        }
+
+        public int ExecuteRawDeviceIoControl<TIn, TOut>(uint controlCode, in TIn input, out TOut output,
+            out nuint outputSize)
+            where TIn : unmanaged
+            where TOut : unmanaged
+        {
+            fixed (TIn* inputPtr = &input)
+            fixed (TOut* outputPtr = &output)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)sizeof(TIn), inputPtr,
+                    (nuint)sizeof(TOut), outputPtr,
+                    out outputSize
+                );
         }
     }
 
@@ -1739,6 +1905,8 @@ namespace SharpGameInput
 
         }
 
+        public ref readonly GameInputDeviceInfo DeviceInfo => ref *GetDeviceInfo();
+
         public int CreateForceFeedbackEffect(
             uint motorIndex,
             in GameInputForceFeedbackParams ffbParams,
@@ -2043,6 +2211,44 @@ namespace SharpGameInput
                 thisPtr
             );
 
+        }
+
+        public int ExecuteRawDeviceIoControl(uint controlCode, byte[] inputBuffer, byte[] outputBuffer,
+            out nuint outputSize)
+        {
+            fixed (byte* inputPtr = inputBuffer)
+            fixed (byte* outputPtr = outputBuffer)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)inputBuffer.Length, inputPtr,
+                    (nuint)outputBuffer.Length, outputPtr,
+                    out outputSize
+                );
+        }
+
+        public int ExecuteRawDeviceIoControl(uint controlCode, ReadOnlySpan<byte> inputBuffer, Span<byte> outputBuffer,
+            out nuint outputSize)
+        {
+            fixed (byte* inputPtr = inputBuffer)
+            fixed (byte* outputPtr = outputBuffer)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)inputBuffer.Length, inputPtr,
+                    (nuint)outputBuffer.Length, outputPtr,
+                    out outputSize
+                );
+        }
+
+        public int ExecuteRawDeviceIoControl<TIn, TOut>(uint controlCode, in TIn input, out TOut output,
+            out nuint outputSize)
+            where TIn : unmanaged
+            where TOut : unmanaged
+        {
+            fixed (TIn* inputPtr = &input)
+            fixed (TOut* outputPtr = &output)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)sizeof(TIn), inputPtr,
+                    (nuint)sizeof(TOut), outputPtr,
+                    out outputSize
+                );
         }
     }
 
@@ -2469,6 +2675,8 @@ namespace SharpGameInput
             return result;
         }
 
+        public ref readonly GameInputRawDeviceReportInfo ReportInfo => ref *GetReportInfo();
+
         public nuint GetRawDataSize()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -2522,6 +2730,44 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public nuint GetRawData(byte[] buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return GetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public nuint GetRawData(Span<byte> buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return GetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public nuint GetRawData<T>(out T data)
+            where T : unmanaged
+        {
+            fixed (T* ptr = &data)
+                return GetRawData((nuint)sizeof(T), ptr);
+        }
+
+        public bool SetRawData(byte[] buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return SetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public bool SetRawData(ReadOnlySpan<byte> buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return SetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public bool SetRawData<T>(in T data)
+            where T : unmanaged
+        {
+            fixed (T* ptr = &data)
+                return SetRawData((nuint)sizeof(T), ptr);
         }
 
         public bool GetItemValue(
@@ -2673,6 +2919,8 @@ namespace SharpGameInput
             return result;
         }
 
+        public ref readonly GameInputRawDeviceReportInfo ReportInfo => ref *GetReportInfo();
+
         public nuint GetRawDataSize()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -2726,6 +2974,44 @@ namespace SharpGameInput
             );
 
             return result;
+        }
+
+        public nuint GetRawData(byte[] buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return GetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public nuint GetRawData(Span<byte> buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return GetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public nuint GetRawData<T>(out T data)
+            where T : unmanaged
+        {
+            fixed (T* ptr = &data)
+                return GetRawData((nuint)sizeof(T), ptr);
+        }
+
+        public bool SetRawData(byte[] buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return SetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public bool SetRawData(ReadOnlySpan<byte> buffer)
+        {
+            fixed (byte* ptr = buffer)
+                return SetRawData((nuint)buffer.Length, ptr);
+        }
+
+        public bool SetRawData<T>(in T data)
+            where T : unmanaged
+        {
+            fixed (T* ptr = &data)
+                return SetRawData((nuint)sizeof(T), ptr);
         }
 
         public bool GetItemValue(

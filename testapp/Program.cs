@@ -19,8 +19,8 @@ using (gameInput)
     // List of available tests
     List<(string name, Action<IGameInput> func)> tests =
     [
-        ("Exit", null!),
         ("Read Raw Reports", Tests.ReadRawReports),
+        ("Callbacks", Tests.Callbacks),
     ];
     string[] choices = tests.Select((i) => i.name).ToArray();
 
@@ -35,7 +35,7 @@ using (gameInput)
             padHeader = true;
 
             int choice = ConsoleUtility.PromptChoice("Select a test", choices);
-            if (choice == 0)
+            if (choice < 0)
                 return;
 
             tests[choice].func(gameInput);

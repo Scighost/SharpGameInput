@@ -59,5 +59,8 @@ internal partial class Tests
                 Console.WriteLine(BitConverter.ToString(buffer));
             }
         }
+
+        // Consume keypress
+        Console.ReadKey(intercept: true);
     }
 }

@@ -72,6 +72,7 @@ internal static class ConsoleUtility
         Console.WriteLine(": ");
 
         // Options
+        Console.WriteLine($"0. Exit");
         for (int i = 0; i < options.Length; i++)
         {
             Console.WriteLine($"{i + 1}. " + options[i]);
@@ -80,8 +81,8 @@ internal static class ConsoleUtility
 
         while (true)
         {
-            int selection = PromptChoice_ReadSelection();
-            if (selection < 0 || selection >= options.Length)
+            int selection = PromptChoice_ReadSelection() - 1;
+            if (selection < -1 || selection >= options.Length)
             {
                 Console.Write("Invalid selection, please try again: ");
                 continue;

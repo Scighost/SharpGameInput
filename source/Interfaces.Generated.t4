@@ -291,7 +291,7 @@ namespace SharpGameInput
             ("out LightIGameInputReading", "reading")
         );
 
-        ForwardMethodInternally("int", "RegisterReadingCallback",
+        ForwardMethodPrivately("int", "RegisterReadingCallback",
             ("IGameInputDevice?", "device"),
             ("GameInputKind", "inputKind"),
             ("float", "analogThreshold"),
@@ -300,7 +300,7 @@ namespace SharpGameInput
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );
-        ForwardMethodInternally("int", "RegisterDeviceCallback",
+        ForwardMethodPrivately("int", "RegisterDeviceCallback",
             ("IGameInputDevice?", "device"),
             ("GameInputKind", "inputKind"),
             ("GameInputDeviceStatus", "statusFilter"),
@@ -310,24 +310,24 @@ namespace SharpGameInput
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );
-        ForwardMethodInternally("int", "RegisterGuideButtonCallback",
+        ForwardMethodPrivately("int", "RegisterGuideButtonCallback",
             ("IGameInputDevice?", "device"),
             ("void*", "context"),
             ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>",
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );
-        ForwardMethodInternally("int", "RegisterKeyboardLayoutCallback",
+        ForwardMethodPrivately("int", "RegisterKeyboardLayoutCallback",
             ("IGameInputDevice?", "device"),
             ("void*", "context"),
             ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, uint, uint, void>",
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );
-        ForwardMethodInternally("void", "StopCallback",
+        ForwardMethod("void", "StopCallback",
             ("ulong", "callbackToken")
         );
-        ForwardMethodInternally("bool", "UnregisterCallback",
+        ForwardMethodPrivately("bool", "_UnregisterCallback",
             ("ulong", "callbackToken"),
             ("ulong", "timeoutInMicroseconds")
         );

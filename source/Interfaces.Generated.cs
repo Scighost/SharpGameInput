@@ -130,7 +130,7 @@ namespace SharpGameInput
             return result;
         }
 
-        internal int RegisterReadingCallback(
+        private int RegisterReadingCallback(
             IGameInputDevice? device,
             GameInputKind inputKind,
             float analogThreshold,
@@ -158,7 +158,7 @@ namespace SharpGameInput
             return result;
         }
 
-        internal int RegisterDeviceCallback(
+        private int RegisterDeviceCallback(
             IGameInputDevice? device,
             GameInputKind inputKind,
             GameInputDeviceStatus statusFilter,
@@ -188,7 +188,7 @@ namespace SharpGameInput
             return result;
         }
 
-        internal int RegisterGuideButtonCallback(
+        private int RegisterGuideButtonCallback(
             IGameInputDevice? device,
             void* context,
             delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void> callbackFunc,
@@ -212,7 +212,7 @@ namespace SharpGameInput
             return result;
         }
 
-        internal int RegisterKeyboardLayoutCallback(
+        private int RegisterKeyboardLayoutCallback(
             IGameInputDevice? device,
             void* context,
             delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, uint, uint, void> callbackFunc,
@@ -236,7 +236,7 @@ namespace SharpGameInput
             return result;
         }
 
-        internal void StopCallback(
+        public void StopCallback(
             ulong callbackToken
         )
         {
@@ -253,7 +253,7 @@ namespace SharpGameInput
 
         }
 
-        internal bool UnregisterCallback(
+        private bool _UnregisterCallback(
             ulong callbackToken,
             ulong timeoutInMicroseconds
         )

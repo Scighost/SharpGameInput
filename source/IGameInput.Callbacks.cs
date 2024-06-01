@@ -1,42 +1,10 @@
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace SharpGameInput
 {
-    public delegate void GameInputReadingCallback(
-        ulong callbackToken,
-        object? context,
-        LightIGameInputReading reading,
-        bool hasOverrunOccurred
-    );
-
-    public delegate void GameInputDeviceCallback(
-        ulong callbackToken,
-        object? context,
-        LightIGameInputDevice device,
-        ulong timestamp,
-        GameInputDeviceStatus currentStatus,
-        GameInputDeviceStatus previousStatus
-    );
-
-    public delegate void GameInputGuideButtonCallback(
-        ulong callbackToken,
-        object? context,
-        LightIGameInputDevice device,
-        ulong timestamp,
-        bool isPressed
-    );
-
-    public delegate void GameInputKeyboardLayoutCallback(
-        ulong callbackToken,
-        object? context,
-        LightIGameInputDevice device,
-        ulong timestamp,
-        uint currentLayout,
-        uint previousLayout
-    );
-
     public unsafe partial class IGameInput
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -84,16 +52,17 @@ namespace SharpGameInput
             float analogThreshold,
             object? context,
             GameInputReadingCallback callbackFunc,
-            out ulong callbackToken,
+            [NotNullWhen(true)] out GameInputCallbackToken? callbackToken,
             out int result
         )
         {
             ThrowHelper.CheckNull(callbackFunc);
 
-            ReadingCallback_Native nativeCallback = (token, _, _reading, hasOverrunOccurred) =>
+            ReadingCallback_Native nativeCallback = (_token, _, _reading, hasOverrunOccurred) =>
             {
                 try
                 {
+                    var token = new LightGameInputCallbackToken(this, _token);
                     var reading = new LightIGameInputReading(_reading, true);
                     callbackFunc(token, context, reading, hasOverrunOccurred);
                 }
@@ -110,10 +79,10 @@ namespace SharpGameInput
                 null,
                 (delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, bool, void>)
                     Marshal.GetFunctionPointerForDelegate(nativeCallback),
-                out callbackToken
+                out ulong token
             );
 
-            return FinishRegisteringCallback(result, callbackToken, nativeCallback);
+            return FinishRegisteringCallback(result, token, nativeCallback, out callbackToken);
         }
 
         public bool RegisterDeviceCallback(
@@ -123,16 +92,17 @@ namespace SharpGameInput
             GameInputEnumerationKind enumerationKind,
             object? context,
             GameInputDeviceCallback callbackFunc,
-            out ulong callbackToken,
+            [NotNullWhen(true)] out GameInputCallbackToken? callbackToken,
             out int result
         )
         {
             ThrowHelper.CheckNull(callbackFunc);
 
-            DeviceCallback_Native nativeCallback = (token, _, _device, timestamp, currentStatus, previousStatus) =>
+            DeviceCallback_Native nativeCallback = (_token, _, _device, timestamp, currentStatus, previousStatus) =>
             {
                 try
                 {
+                    var token = new LightGameInputCallbackToken(this, _token);
                     var device = new LightIGameInputDevice(_device, true);
                     callbackFunc(token, context, device, timestamp, currentStatus, previousStatus);
                 }
@@ -150,26 +120,27 @@ namespace SharpGameInput
                 null,
                 (delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, GameInputDeviceStatus, GameInputDeviceStatus, void>)
                     Marshal.GetFunctionPointerForDelegate(nativeCallback),
-                out callbackToken
+                out ulong token
             );
 
-            return FinishRegisteringCallback(result, callbackToken, nativeCallback);
+            return FinishRegisteringCallback(result, token, nativeCallback, out callbackToken);
         }
 
         public bool RegisterGuideButtonCallback(
             IGameInputDevice? device,
             object? context,
             GameInputGuideButtonCallback callbackFunc,
-            out ulong callbackToken,
+            [NotNullWhen(true)] out GameInputCallbackToken? callbackToken,
             out int result
         )
         {
             ThrowHelper.CheckNull(callbackFunc);
 
-            GuideButtonCallback_Native nativeCallback = (token, _, _device, timestamp, isPressed) =>
+            GuideButtonCallback_Native nativeCallback = (_token, _, _device, timestamp, isPressed) =>
             {
                 try
                 {
+                    var token = new LightGameInputCallbackToken(this, _token);
                     var device = new LightIGameInputDevice(_device, true);
                     callbackFunc(token, context, device, timestamp, isPressed);
                 }
@@ -184,26 +155,27 @@ namespace SharpGameInput
                 null,
                 (delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>)
                     Marshal.GetFunctionPointerForDelegate(nativeCallback),
-                out callbackToken
+                out ulong token
             );
 
-            return FinishRegisteringCallback(result, callbackToken, nativeCallback);
+            return FinishRegisteringCallback(result, token, nativeCallback, out callbackToken);
         }
 
         public bool RegisterKeyboardLayoutCallback(
             IGameInputDevice? device,
             object? context,
             GameInputKeyboardLayoutCallback callbackFunc,
-            out ulong callbackToken,
+            [NotNullWhen(true)] out GameInputCallbackToken? callbackToken,
             out int result
         )
         {
             ThrowHelper.CheckNull(callbackFunc);
 
-            KeyboardLayoutCallback_Native nativeCallback = (token, _, _device, timestamp, currentLayout, previousLayout) =>
+            KeyboardLayoutCallback_Native nativeCallback = (_token, _, _device, timestamp, currentLayout, previousLayout) =>
             {
                 try
                 {
+                    var token = new LightGameInputCallbackToken(this, _token);
                     var device = new LightIGameInputDevice(_device, true);
                     callbackFunc(token, context, device, timestamp, currentLayout, previousLayout);
                 }
@@ -218,10 +190,10 @@ namespace SharpGameInput
                 null,
                 (delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, uint, uint, void>)
                     Marshal.GetFunctionPointerForDelegate(nativeCallback),
-                out callbackToken
+                out ulong token
             );
 
-            return FinishRegisteringCallback(result, callbackToken, nativeCallback);
+            return FinishRegisteringCallback(result, token, nativeCallback, out callbackToken);
         }
 
         public bool UnregisterCallback(ulong callbackToken, ulong timeoutInMicroseconds)
@@ -238,20 +210,25 @@ namespace SharpGameInput
             return true;
         }
 
-        private bool FinishRegisteringCallback(int result, ulong callbackToken, object nativeCallback)
+        private bool FinishRegisteringCallback(int result, ulong token, object nativeCallback,
+            [NotNullWhen(true)] out GameInputCallbackToken? callbackToken)
         {
             if (result < 0)
+            {
+                callbackToken = null;
                 return false;
+            }
 
-            if (!_callbacks.TryAdd(callbackToken, nativeCallback))
+            if (!_callbacks.TryAdd(token, nativeCallback))
             {
                 // This should never happen; make a best attempt to prevent the
                 // callback from being leaked/called and then throw to notify of the problem
-                StopCallback(callbackToken);
-                _UnregisterCallback(callbackToken, 500);
+                StopCallback(token);
+                _UnregisterCallback(token, 500);
                 throw new Exception("A duplicate callback token has been encountered! This should never happen; if it does you're in some big trouble.");
             }
 
+            callbackToken = new(this, token);
             return true;
         }
 

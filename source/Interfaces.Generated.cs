@@ -1780,6 +1780,28 @@ namespace SharpGameInput
                 );
         }
 
+        public int ExecuteRawDeviceIoControl<TIn>(uint controlCode, in TIn input)
+            where TIn : unmanaged
+        {
+            fixed (TIn* inputPtr = &input)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)sizeof(TIn), inputPtr,
+                    0, null,
+                    out _
+                );
+        }
+
+        public int ExecuteRawDeviceIoControl<TOut>(uint controlCode, out TOut output, out nuint outputSize)
+            where TOut : unmanaged
+        {
+            fixed (TOut* outputPtr = &output)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    0, null,
+                    (nuint)sizeof(TOut), outputPtr,
+                    out outputSize
+                );
+        }
+
         public int ExecuteRawDeviceIoControl<TIn, TOut>(uint controlCode, in TIn input, out TOut output,
             out nuint outputSize)
             where TIn : unmanaged
@@ -2213,6 +2235,28 @@ namespace SharpGameInput
                 return ExecuteRawDeviceIoControl(controlCode,
                     (nuint)inputBuffer.Length, inputPtr,
                     (nuint)outputBuffer.Length, outputPtr,
+                    out outputSize
+                );
+        }
+
+        public int ExecuteRawDeviceIoControl<TIn>(uint controlCode, in TIn input)
+            where TIn : unmanaged
+        {
+            fixed (TIn* inputPtr = &input)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    (nuint)sizeof(TIn), inputPtr,
+                    0, null,
+                    out _
+                );
+        }
+
+        public int ExecuteRawDeviceIoControl<TOut>(uint controlCode, out TOut output, out nuint outputSize)
+            where TOut : unmanaged
+        {
+            fixed (TOut* outputPtr = &output)
+                return ExecuteRawDeviceIoControl(controlCode,
+                    0, null,
+                    (nuint)sizeof(TOut), outputPtr,
                     out outputSize
                 );
         }

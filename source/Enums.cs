@@ -29,7 +29,8 @@ namespace SharpGameInput
         FlightStick      = 0x00020000,
         Gamepad          = 0x00040000,
         RacingWheel      = 0x00080000,
-        UiNavigation     = 0x01000000
+        UiNavigation     = 0x01000000,
+        AnyKind          = unchecked((int)0xFFFFFFFF)
     }
 
     public enum GameInputEnumerationKind

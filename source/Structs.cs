@@ -1,4 +1,6 @@
+using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SharpGameInput
 {
@@ -8,6 +10,25 @@ namespace SharpGameInput
         public const int Size = 32;
 
         public fixed byte value[Size];
+
+        public override string ToString()
+        {
+            const string characters = "0123456789ABCDEF";
+
+            Span<char> stringBuffer = stackalloc char[Size * 3];
+            for (int i = 0; i < Size; i++)
+            {
+                byte v = value[i];
+                int stringIndex = i * 3;
+                stringBuffer[stringIndex] = characters[(v & 0xF0) >> 4];
+                stringBuffer[stringIndex + 1] = characters[v & 0x0F];
+                stringBuffer[stringIndex + 2] = '-';
+            }
+            // Exclude last '-'
+            stringBuffer = stringBuffer[..^1];
+
+            return stringBuffer.ToString();
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -130,6 +151,11 @@ namespace SharpGameInput
         public uint sizeInBytes;
         public uint codePointCount;
         public byte* data;
+
+        public override string ToString()
+        {
+            return Encoding.UTF8.GetString(data, (int)sizeInBytes);
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -146,6 +172,11 @@ namespace SharpGameInput
         public ushort minor;
         public ushort build;
         public ushort revision;
+
+        public override string ToString()
+        {
+            return $"{major}.{minor}.{build}.{revision}";
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]

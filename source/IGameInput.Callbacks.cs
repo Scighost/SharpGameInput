@@ -25,13 +25,23 @@ namespace SharpGameInput
             GameInputDeviceStatus previousStatus
         );
 
+        // [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        // private unsafe delegate void GuideButtonCallback_Native(
+        //     ulong callbackToken,
+        //     void* context,
+        //     IntPtr device, // IGameInputDevice
+        //     ulong timestamp,
+        //     bool isPressed
+        // );
+
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private unsafe delegate void GuideButtonCallback_Native(
+        private unsafe delegate void SystemButtonCallback_Native(
             ulong callbackToken,
             void* context,
             IntPtr device, // IGameInputDevice
             ulong timestamp,
-            bool isPressed
+            GameInputSystemButtons currentState,
+            GameInputSystemButtons previousState
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -126,23 +136,33 @@ namespace SharpGameInput
             return FinishRegisteringCallback(result, token, nativeCallback, out callbackToken);
         }
 
-        public bool RegisterGuideButtonCallback(
+        // public bool RegisterGuideButtonCallback(
+        //     IGameInputDevice? device,
+        //     object? context,
+        //     GameInputGuideButtonCallback callbackFunc,
+        //     [NotNullWhen(true)] out GameInputCallbackToken? callbackToken,
+        //     out int result
+        // )
+        public bool RegisterSystemButtonCallback(
             IGameInputDevice? device,
+            GameInputSystemButtons buttonFilter,
             object? context,
-            GameInputGuideButtonCallback callbackFunc,
+            GameInputSystemButtonCallback callbackFunc,
             [NotNullWhen(true)] out GameInputCallbackToken? callbackToken,
             out int result
         )
         {
             ThrowHelper.CheckNull(callbackFunc);
 
-            GuideButtonCallback_Native nativeCallback = (_token, _, _device, timestamp, isPressed) =>
+            // GuideButtonCallback_Native nativeCallback = (_token, _, _device, timestamp, isPressed) =>
+            SystemButtonCallback_Native nativeCallback = (_token, _, _device, timestamp, currentState, previousState) =>
             {
                 try
                 {
                     var token = new LightGameInputCallbackToken(this, _token);
                     var device = new LightIGameInputDevice(_device, true);
-                    callbackFunc(token, context, device, timestamp, isPressed);
+                    // callbackFunc(token, context, device, timestamp, isPressed);
+                    callbackFunc(token, context, device, timestamp, currentState, previousState);
                 }
                 catch (Exception ex)
                 {
@@ -150,10 +170,13 @@ namespace SharpGameInput
                 }
             };
 
-            result = RegisterGuideButtonCallback(
+            // result = RegisterGuideButtonCallback(
+            result = RegisterSystemButtonCallback(
                 device,
+                buttonFilter,
                 null,
-                (delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>)
+                // (delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>)
+                (delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, GameInputSystemButtons, GameInputSystemButtons, void>)
                     Marshal.GetFunctionPointerForDelegate(nativeCallback),
                 out ulong token
             );

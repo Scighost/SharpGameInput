@@ -19,12 +19,21 @@ namespace SharpGameInput
         GameInputDeviceStatus previousStatus
     );
 
-    public delegate void GameInputGuideButtonCallback(
+    // public delegate void GameInputGuideButtonCallback(
+    //     LightGameInputCallbackToken callbackToken,
+    //     object? context,
+    //     LightIGameInputDevice device,
+    //     ulong timestamp,
+    //     bool isPressed
+    // );
+
+    public delegate void GameInputSystemButtonCallback(
         LightGameInputCallbackToken callbackToken,
         object? context,
         LightIGameInputDevice device,
         ulong timestamp,
-        bool isPressed
+        GameInputSystemButtons currentState,
+        GameInputSystemButtons previousState
     );
 
     public delegate void GameInputKeyboardLayoutCallback(

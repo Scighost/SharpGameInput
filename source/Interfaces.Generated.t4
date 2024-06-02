@@ -345,10 +345,19 @@ namespace SharpGameInput
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );
-        ForwardMethodPrivately("int", "RegisterGuideButtonCallback",
+        // gg Microsoft, ABI breakage
+        // ForwardMethodPrivately("int", "RegisterGuideButtonCallback",
+        //     ("IGameInputDevice?", "device"),
+        //     ("void*?", "context"),
+        //     ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>",
+        //         "callbackFunc"),
+        //     ("out ulong", "callbackToken")
+        // );
+        ForwardMethodPrivately("int", "RegisterSystemButtonCallback",
             ("IGameInputDevice?", "device"),
+            ("GameInputSystemButtons", "buttonFilter"),
             ("void*?", "context"),
-            ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>",
+            ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, GameInputSystemButtons, GameInputSystemButtons, void>",
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );

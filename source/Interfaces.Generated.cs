@@ -188,10 +188,11 @@ namespace SharpGameInput
             return result;
         }
 
-        private int RegisterGuideButtonCallback(
+        private int RegisterSystemButtonCallback(
             IGameInputDevice? device,
+            GameInputSystemButtons buttonFilter,
             void* context,
-            delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void> callbackFunc,
+            delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, GameInputSystemButtons, GameInputSystemButtons, void> callbackFunc,
             out ulong callbackToken
         )
         {
@@ -199,11 +200,12 @@ namespace SharpGameInput
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
-            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, void*, delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>, out ulong, int>)vtable[10];
+            var fnPtr = (delegate* unmanaged[Stdcall]<IntPtr, IntPtr, GameInputSystemButtons, void*, delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, GameInputSystemButtons, GameInputSystemButtons, void>, out ulong, int>)vtable[10];
 
             var result = fnPtr(
                 thisPtr,
                 device?.DangerousGetHandle() ?? IntPtr.Zero,
+                buttonFilter,
                 context,
                 callbackFunc,
                 out callbackToken

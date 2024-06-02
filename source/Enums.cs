@@ -203,6 +203,14 @@ namespace SharpGameInput
     }
 
     [Flags]
+    public enum GameInputSystemButtons  
+    {  
+        None  = 0x00000000,
+        Guide = 0x00000001,
+        Share = 0x00000002 
+    }
+
+    [Flags]
     public enum GameInputDeviceStatus
     {
         NoStatus      = 0x00000000,

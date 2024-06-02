@@ -13,6 +13,12 @@ namespace SharpGameInput
                 throw new ArgumentNullException(name);
         }
 
+        public static unsafe void CheckNull([NotNull] void* ptr, [CallerArgumentExpression(nameof(ptr))] string name = "")
+        {
+            if (ptr == null)
+                throw new ArgumentNullException(name);
+        }
+
         public static void CheckDisposed([DoesNotReturnIf(true)] bool disposed, string name)
         {
             if (disposed)

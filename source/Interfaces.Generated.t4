@@ -30,6 +30,7 @@ HashSet<string> lightInterfaceTypes = interfaceTypes.Select((n) => "Light" + n).
 const int TypeMarker_In = 0x01;
 const int TypeMarker_Out = 0x02;
 const int TypeMarker_Nullable = 0x04;
+const int TypeMarker_Pointer = 0x08;
 
 const int IUnknownMethodCount = 3;
 int methodIndex = 0;
@@ -117,7 +118,7 @@ void ForwardMethodPrivately(string returnType, string name, params (string type,
     _ForwardMethod("private", returnType, name, parameters);
 }
 
-void _ForwardMethod(string accessibility, string returnType, string name, params (string type, string name)[] parameters)
+void _ForwardMethod(string accessibility, string returnType, string name, params (string type, string name)[] _parameters)
 {
     (string stripped, int flags) GetTypeModifiers(string type)
     {
@@ -140,8 +141,27 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
             type = type[..^1];
         }
 
+        if (type.EndsWith("*"))
+            flags |= TypeMarker_Pointer;
+
         return (type, flags);
     }
+
+    string FixupType(string type)
+    {
+        // Pseudo-syntax for allowing nullable pointer types;
+        // not actually supported in C#
+        if (type.EndsWith("*?"))
+            type = type[..^1];
+
+        return type;
+    }
+
+    (string name, string type, string strippedType, int flags)[] parameters = _parameters.Select((p) =>
+    {
+        var (strippedType, flags) = GetTypeModifiers(p.type);
+        return (p.name, FixupType(p.type), strippedType, flags);
+    }).ToArray();
 
     bool isVoid = returnType == "void";
 #>
@@ -165,7 +185,8 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
 
     var fnPtrParams = parameters.Select((p) =>
     {
-        var (type, flags) = GetTypeModifiers(p.type);
+        string type = p.strippedType;
+        int flags = p.flags;
 
         if (interfaceTypes.Contains(type) || lightInterfaceTypes.Contains(type))
             type = "IntPtr";
@@ -181,7 +202,8 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
     var fnCallParams = parameters.Select((p) =>
     {
         string argument = p.name;
-        var (type, flags) = GetTypeModifiers(p.type);
+        string type = p.strippedType;
+        int flags = p.flags;
 
         if (interfaceTypes.Contains(type) || lightInterfaceTypes.Contains(type))
         {
@@ -208,10 +230,14 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
 <#
     foreach (var parameter in parameters)
     {
-        var (type, flags) = GetTypeModifiers(parameter.type);
+        string type = parameter.strippedType;
+        int flags = parameter.flags;
+
+        // Don't check output or optional parameters
         if ((flags & (TypeMarker_Out | TypeMarker_Nullable)) != 0)
             continue;
 
+        // Verify input handle types
         if (interfaceTypes.Contains(type))
         {
 #>
@@ -222,6 +248,13 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
         {
 #>
             ThrowHelper.CheckDisposed(<#= parameter.name #>.IsInvalid || <#= parameter.name #>.IsClosed, nameof(<#= parameter.name #>));
+<#
+        }
+        // Verify pointer types
+        else if ((flags & TypeMarker_Pointer) != 0)
+        {
+#>
+            ThrowHelper.CheckNull(<#= parameter.name #>);
 <#
         }
     }
@@ -238,7 +271,9 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
 <#
     foreach (var parameter in parameters)
     {
-        var (type, flags) = GetTypeModifiers(parameter.type);
+        string type = parameter.strippedType;
+        int flags = parameter.flags;
+
         if (interfaceTypes.Contains(type) || lightInterfaceTypes.Contains(type))
         {
             if ((flags & TypeMarker_Out) != 0)
@@ -295,7 +330,7 @@ namespace SharpGameInput
             ("IGameInputDevice?", "device"),
             ("GameInputKind", "inputKind"),
             ("float", "analogThreshold"),
-            ("void*", "context"),
+            ("void*?", "context"),
             ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, bool, void>",
                 "callbackFunc"),
             ("out ulong", "callbackToken")
@@ -305,21 +340,21 @@ namespace SharpGameInput
             ("GameInputKind", "inputKind"),
             ("GameInputDeviceStatus", "statusFilter"),
             ("GameInputEnumerationKind", "enumerationKind"),
-            ("void*", "context"),
+            ("void*?", "context"),
             ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, GameInputDeviceStatus, GameInputDeviceStatus, void>",
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );
         ForwardMethodPrivately("int", "RegisterGuideButtonCallback",
             ("IGameInputDevice?", "device"),
-            ("void*", "context"),
+            ("void*?", "context"),
             ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, bool, void>",
                 "callbackFunc"),
             ("out ulong", "callbackToken")
         );
         ForwardMethodPrivately("int", "RegisterKeyboardLayoutCallback",
             ("IGameInputDevice?", "device"),
-            ("void*", "context"),
+            ("void*?", "context"),
             ("delegate* unmanaged[Stdcall]<ulong, void*, IntPtr, ulong, uint, uint, void>",
                 "callbackFunc"),
             ("out ulong", "callbackToken")
@@ -542,9 +577,9 @@ namespace SharpGameInput
         ForwardMethod("int", "ExecuteRawDeviceIoControl",
             ("uint", "controlCode"),
             ("nuint", "inputBufferSize"),
-            ("void*", "inputBuffer"),
+            ("void*?", "inputBuffer"),
             ("nuint", "outputBufferSize"),
-            ("void*", "outputBuffer"),
+            ("void*?", "outputBuffer"),
             ("out nuint", "outputSize")
         );
         ForwardMethod("bool", "AcquireExclusiveRawDeviceAccess",

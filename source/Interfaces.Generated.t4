@@ -38,7 +38,7 @@ int methodIndex = 0;
 void DefineInterface(string name, Action makeMethods)
 {
 #>
-    public sealed unsafe partial class <#= name #> : ComPtr
+    public sealed unsafe partial class <#= name #> : GameInputComPtr
     {
         internal <#= name #>(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 <#

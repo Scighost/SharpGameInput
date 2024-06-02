@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpGameInput
 {
-    public sealed unsafe partial class IGameInput : ComPtr
+    public sealed unsafe partial class IGameInput : GameInputComPtr
     {
         internal IGameInput(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
@@ -448,7 +448,7 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputReading : ComPtr
+    public sealed unsafe partial class IGameInputReading : GameInputComPtr
     {
         internal IGameInputReading(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
@@ -1398,7 +1398,7 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputDevice : ComPtr
+    public sealed unsafe partial class IGameInputDevice : GameInputComPtr
     {
         internal IGameInputDevice(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
@@ -2278,7 +2278,7 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputDispatcher : ComPtr
+    public sealed unsafe partial class IGameInputDispatcher : GameInputComPtr
     {
         internal IGameInputDispatcher(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
@@ -2319,7 +2319,7 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputForceFeedbackEffect : ComPtr
+    public sealed unsafe partial class IGameInputForceFeedbackEffect : GameInputComPtr
     {
         internal IGameInputForceFeedbackEffect(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 
@@ -2631,7 +2631,7 @@ namespace SharpGameInput
         }
     }
 
-    public sealed unsafe partial class IGameInputRawDeviceReport : ComPtr
+    public sealed unsafe partial class IGameInputRawDeviceReport : GameInputComPtr
     {
         internal IGameInputRawDeviceReport(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
 

@@ -579,11 +579,13 @@ namespace SharpGameInput
                 return GetControllerAxisState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetControllerAxisState(scoped Span<float> stateArray)
         {
             fixed (float* ptr = stateArray)
                 return GetControllerAxisState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public uint GetControllerButtonCount()
         {
@@ -627,11 +629,13 @@ namespace SharpGameInput
                 return GetControllerButtonState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetControllerButtonState(scoped Span<bool> stateArray)
         {
             fixed (bool* ptr = stateArray)
                 return GetControllerButtonState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public uint GetControllerSwitchCount()
         {
@@ -675,11 +679,13 @@ namespace SharpGameInput
                 return GetControllerSwitchState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetControllerSwitchState(scoped Span<GameInputSwitchPosition> stateArray)
         {
             fixed (GameInputSwitchPosition* ptr = stateArray)
                 return GetControllerSwitchState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public uint GetKeyCount()
         {
@@ -723,11 +729,13 @@ namespace SharpGameInput
                 return GetKeyState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetKeyState(scoped Span<GameInputKeyState> stateArray)
         {
             fixed (GameInputKeyState* ptr = stateArray)
                 return GetKeyState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public bool GetMouseState(
             out GameInputMouseState state
@@ -789,11 +797,13 @@ namespace SharpGameInput
                 return GetTouchState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetTouchState(scoped Span<GameInputTouchState> stateArray)
         {
             fixed (GameInputTouchState* ptr = stateArray)
                 return GetTouchState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public bool GetMotionState(
             out GameInputMotionState state
@@ -1094,11 +1104,13 @@ namespace SharpGameInput
                 return GetControllerAxisState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetControllerAxisState(scoped Span<float> stateArray)
         {
             fixed (float* ptr = stateArray)
                 return GetControllerAxisState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public uint GetControllerButtonCount()
         {
@@ -1142,11 +1154,13 @@ namespace SharpGameInput
                 return GetControllerButtonState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetControllerButtonState(scoped Span<bool> stateArray)
         {
             fixed (bool* ptr = stateArray)
                 return GetControllerButtonState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public uint GetControllerSwitchCount()
         {
@@ -1190,11 +1204,13 @@ namespace SharpGameInput
                 return GetControllerSwitchState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetControllerSwitchState(scoped Span<GameInputSwitchPosition> stateArray)
         {
             fixed (GameInputSwitchPosition* ptr = stateArray)
                 return GetControllerSwitchState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public uint GetKeyCount()
         {
@@ -1238,11 +1254,13 @@ namespace SharpGameInput
                 return GetKeyState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetKeyState(scoped Span<GameInputKeyState> stateArray)
         {
             fixed (GameInputKeyState* ptr = stateArray)
                 return GetKeyState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public bool GetMouseState(
             out GameInputMouseState state
@@ -1304,11 +1322,13 @@ namespace SharpGameInput
                 return GetTouchState((uint)stateArray.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public uint GetTouchState(scoped Span<GameInputTouchState> stateArray)
         {
             fixed (GameInputTouchState* ptr = stateArray)
                 return GetTouchState((uint)stateArray.Length, ptr);
         }
+#endif
 
         public bool GetMotionState(
             out GameInputMotionState state
@@ -1790,6 +1810,7 @@ namespace SharpGameInput
                 );
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public int ExecuteRawDeviceIoControl(uint controlCode,
             scoped ReadOnlySpan<byte> inputBuffer, scoped Span<byte> outputBuffer,
             out nuint outputSize)
@@ -1802,6 +1823,7 @@ namespace SharpGameInput
                     out outputSize
                 );
         }
+#endif
 
         public int ExecuteRawDeviceIoControl<TIn>(uint controlCode, in TIn input)
             where TIn : unmanaged
@@ -2270,6 +2292,7 @@ namespace SharpGameInput
                 );
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public int ExecuteRawDeviceIoControl(uint controlCode,
             scoped ReadOnlySpan<byte> inputBuffer, scoped Span<byte> outputBuffer,
             out nuint outputSize)
@@ -2282,6 +2305,7 @@ namespace SharpGameInput
                     out outputSize
                 );
         }
+#endif
 
         public int ExecuteRawDeviceIoControl<TIn>(uint controlCode, in TIn input)
             where TIn : unmanaged
@@ -2796,11 +2820,13 @@ namespace SharpGameInput
                 return GetRawData((nuint)buffer.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public nuint GetRawData(scoped Span<byte> buffer)
         {
             fixed (byte* ptr = buffer)
                 return GetRawData((nuint)buffer.Length, ptr);
         }
+#endif
 
         public nuint GetRawData<T>(out T data)
             where T : unmanaged
@@ -2815,11 +2841,13 @@ namespace SharpGameInput
                 return SetRawData((nuint)buffer.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public bool SetRawData(scoped ReadOnlySpan<byte> buffer)
         {
             fixed (byte* ptr = buffer)
                 return SetRawData((nuint)buffer.Length, ptr);
         }
+#endif
 
         public bool SetRawData<T>(in T data)
             where T : unmanaged
@@ -3063,11 +3091,13 @@ namespace SharpGameInput
                 return GetRawData((nuint)buffer.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public nuint GetRawData(scoped Span<byte> buffer)
         {
             fixed (byte* ptr = buffer)
                 return GetRawData((nuint)buffer.Length, ptr);
         }
+#endif
 
         public nuint GetRawData<T>(out T data)
             where T : unmanaged
@@ -3082,11 +3112,13 @@ namespace SharpGameInput
                 return SetRawData((nuint)buffer.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public bool SetRawData(scoped ReadOnlySpan<byte> buffer)
         {
             fixed (byte* ptr = buffer)
                 return SetRawData((nuint)buffer.Length, ptr);
         }
+#endif
 
         public bool SetRawData<T>(in T data)
             where T : unmanaged

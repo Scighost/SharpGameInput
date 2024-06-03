@@ -63,8 +63,14 @@ namespace SharpGameInput.TestApp
                 Console.Write(", ");
 
                 Span<byte> buffer = stackalloc byte[(int)size];
-                ulong readSize = rawReport.GetRawData(buffer);
-                Debug.Assert(size == readSize);
+                unsafe
+                {
+                    fixed (byte* ptr = buffer)
+                    {
+                        ulong readSize = rawReport.GetRawData((UIntPtr)buffer.Length, ptr);
+                        Debug.Assert(size == readSize);
+                    }
+                }
 
                 ConsoleUtility.WriteLine(buffer);
             }

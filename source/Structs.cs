@@ -14,9 +14,12 @@ namespace SharpGameInput
 
         public static bool operator ==(APP_LOCAL_DEVICE_ID left, APP_LOCAL_DEVICE_ID right)
         {
-            ReadOnlySpan<byte> l = new(left.value, Size);
-            ReadOnlySpan<byte> r = new(right.value, Size);
-            return l.SequenceEqual(r);
+            long* l = (long*)left.value;
+            long* r = (long*)left.value;
+            return l[0] == r[0] &&
+                l[1] == r[1] &&
+                l[2] == r[2] &&
+                l[3] == r[3];
         }
 
         public static bool operator !=(APP_LOCAL_DEVICE_ID left, APP_LOCAL_DEVICE_ID right)
@@ -33,17 +36,16 @@ namespace SharpGameInput
             fixed (byte* ptr = value)
             {
                 long* iPtr = (long*)ptr;
-                return HashCode.Combine(
-                    iPtr[0], iPtr[1], iPtr[2], iPtr[3]
-                );
+                return (iPtr[0], iPtr[1], iPtr[2], iPtr[3]).GetHashCode();
             }
         }
 
-        public override string ToString()
+        public unsafe override string ToString()
         {
             const string characters = "0123456789ABCDEF";
 
-            Span<char> stringBuffer = stackalloc char[Size * 3];
+            const int bufferSize = Size * 3;
+            char* stringBuffer = stackalloc char[bufferSize];
             for (int i = 0; i < Size; i++)
             {
                 byte v = value[i];
@@ -52,10 +54,8 @@ namespace SharpGameInput
                 stringBuffer[stringIndex + 1] = characters[v & 0x0F];
                 stringBuffer[stringIndex + 2] = '-';
             }
-            // Exclude last '-'
-            stringBuffer = stringBuffer[..^1];
 
-            return stringBuffer.ToString();
+            return new string(stringBuffer, 0, bufferSize - 1); // Exclude last '-'
         }
     }
 

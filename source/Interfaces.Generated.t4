@@ -456,11 +456,13 @@ namespace SharpGameInput
                 return <#= name #>((uint)<#= array.name #>.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public <#= returnType #> <#= name #>(scoped Span<<#= array.type #>> <#= array.name #>)
         {
             fixed (<#= array.type #>* ptr = <#= array.name #>)
                 return <#= name #>((uint)<#= array.name #>.Length, ptr);
         }
+#endif
 <#
         }
 
@@ -630,6 +632,7 @@ namespace SharpGameInput
                 );
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public int ExecuteRawDeviceIoControl(uint controlCode,
             scoped ReadOnlySpan<byte> inputBuffer, scoped Span<byte> outputBuffer,
             out nuint outputSize)
@@ -642,6 +645,7 @@ namespace SharpGameInput
                     out outputSize
                 );
         }
+#endif
 
         public int ExecuteRawDeviceIoControl<TIn>(uint controlCode, in TIn input)
             where TIn : unmanaged
@@ -754,11 +758,13 @@ namespace SharpGameInput
                 return GetRawData((nuint)buffer.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public nuint GetRawData(scoped Span<byte> buffer)
         {
             fixed (byte* ptr = buffer)
                 return GetRawData((nuint)buffer.Length, ptr);
         }
+#endif
 
         public nuint GetRawData<T>(out T data)
             where T : unmanaged
@@ -773,11 +779,13 @@ namespace SharpGameInput
                 return SetRawData((nuint)buffer.Length, ptr);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public bool SetRawData(scoped ReadOnlySpan<byte> buffer)
         {
             fixed (byte* ptr = buffer)
                 return SetRawData((nuint)buffer.Length, ptr);
         }
+#endif
 
         public bool SetRawData<T>(in T data)
             where T : unmanaged

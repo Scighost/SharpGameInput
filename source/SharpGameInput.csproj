@@ -7,6 +7,19 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <AssemblyName>SharpGameInput</AssemblyName>
+    <AssemblyTitle>$(AssemblyName)</AssemblyTitle>
+    <Product>$(AssemblyName)</Product>
+    <Version>0.1.0</Version>
+    <Description>C# interop bindings for GameInput.</Description>
+    <Authors>Nathan Hurst</Authors>
+    <Copyright>Copyright (c) 2024 $(Authors)</Copyright>
+    <RepositoryUrl>https://github.com/TheNathannator/SharpGameInput</RepositoryUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
     <PackageReference Include="System.Memory" Version="4.5.5" />

@@ -95,6 +95,27 @@ void DefineLightInterface(string name, Action makeMethods)
         {
             return new(instance.DangerousGetHandle(), ownsHandle: false);
         }
+
+        public static bool operator ==(Light<#= name #> left, Light<#= name #> right)
+        {
+            // GameInput interfaces can be compared directly by pointer for equality
+            return left.handle == right.handle;
+        }
+
+        public static bool operator !=(Light<#= name #> left, Light<#= name #> right)
+            => !(left == right);
+
+        public bool Equals(Light<#= name #> ptr)
+            => ptr == this;
+
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+        [Obsolete("Equals(object) on Light<#= name #> will always throw an exception. Use the equality operator instead.", true)]
+        public override bool Equals(object? obj)
+            => throw new NotSupportedException();
+#pragma warning restore CS0809
+
+        public override int GetHashCode()
+            => handle.GetHashCode();
 <#
     methodIndex = 0;
     makeMethods();

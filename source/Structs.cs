@@ -1,15 +1,43 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SharpGameInput
 {
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct APP_LOCAL_DEVICE_ID
+    public unsafe struct APP_LOCAL_DEVICE_ID : IEquatable<APP_LOCAL_DEVICE_ID>
     {
         public const int Size = 32;
 
         public fixed byte value[Size];
+
+        public static bool operator ==(APP_LOCAL_DEVICE_ID left, APP_LOCAL_DEVICE_ID right)
+        {
+            ReadOnlySpan<byte> l = new(left.value, Size);
+            ReadOnlySpan<byte> r = new(right.value, Size);
+            return l.SequenceEqual(r);
+        }
+
+        public static bool operator !=(APP_LOCAL_DEVICE_ID left, APP_LOCAL_DEVICE_ID right)
+            => !(left == right);
+
+        public readonly bool Equals(APP_LOCAL_DEVICE_ID ptr)
+            => ptr == this;
+
+        public readonly override bool Equals([NotNullWhen(true)] object? obj)
+            => obj is APP_LOCAL_DEVICE_ID ptr && Equals(ptr);
+
+        public override int GetHashCode()
+        {
+            fixed (byte* ptr = value)
+            {
+                long* iPtr = (long*)ptr;
+                return HashCode.Combine(
+                    iPtr[0], iPtr[1], iPtr[2], iPtr[3]
+                );
+            }
+        }
 
         public override string ToString()
         {
@@ -152,7 +180,7 @@ namespace SharpGameInput
         public uint codePointCount;
         public byte* data;
 
-        public override string ToString()
+        public readonly override string ToString()
         {
             return Encoding.UTF8.GetString(data, (int)sizeInBytes);
         }
@@ -173,7 +201,7 @@ namespace SharpGameInput
         public ushort build;
         public ushort revision;
 
-        public override string ToString()
+        public readonly override string ToString()
         {
             return $"{major}.{minor}.{build}.{revision}";
         }

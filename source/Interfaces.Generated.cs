@@ -946,6 +946,27 @@ namespace SharpGameInput
             return new(instance.DangerousGetHandle(), ownsHandle: false);
         }
 
+        public static bool operator ==(LightIGameInputReading left, LightIGameInputReading right)
+        {
+            // GameInput interfaces can be compared directly by pointer for equality
+            return left.handle == right.handle;
+        }
+
+        public static bool operator !=(LightIGameInputReading left, LightIGameInputReading right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputReading ptr)
+            => ptr == this;
+
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+        [Obsolete("Equals(object) on LightIGameInputReading will always throw an exception. Use the equality operator instead.", true)]
+        public override bool Equals(object? obj)
+            => throw new NotSupportedException();
+#pragma warning restore CS0809
+
+        public override int GetHashCode()
+            => handle.GetHashCode();
+
         public GameInputKind GetInputKind()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -1861,6 +1882,27 @@ namespace SharpGameInput
             return new(instance.DangerousGetHandle(), ownsHandle: false);
         }
 
+        public static bool operator ==(LightIGameInputDevice left, LightIGameInputDevice right)
+        {
+            // GameInput interfaces can be compared directly by pointer for equality
+            return left.handle == right.handle;
+        }
+
+        public static bool operator !=(LightIGameInputDevice left, LightIGameInputDevice right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputDevice ptr)
+            => ptr == this;
+
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+        [Obsolete("Equals(object) on LightIGameInputDevice will always throw an exception. Use the equality operator instead.", true)]
+        public override bool Equals(object? obj)
+            => throw new NotSupportedException();
+#pragma warning restore CS0809
+
+        public override int GetHashCode()
+            => handle.GetHashCode();
+
         private GameInputDeviceInfo* GetDeviceInfo()
         {
             ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
@@ -2498,6 +2540,27 @@ namespace SharpGameInput
             return new(instance.DangerousGetHandle(), ownsHandle: false);
         }
 
+        public static bool operator ==(LightIGameInputForceFeedbackEffect left, LightIGameInputForceFeedbackEffect right)
+        {
+            // GameInput interfaces can be compared directly by pointer for equality
+            return left.handle == right.handle;
+        }
+
+        public static bool operator !=(LightIGameInputForceFeedbackEffect left, LightIGameInputForceFeedbackEffect right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputForceFeedbackEffect ptr)
+            => ptr == this;
+
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+        [Obsolete("Equals(object) on LightIGameInputForceFeedbackEffect will always throw an exception. Use the equality operator instead.", true)]
+        public override bool Equals(object? obj)
+            => throw new NotSupportedException();
+#pragma warning restore CS0809
+
+        public override int GetHashCode()
+            => handle.GetHashCode();
+
         public void GetDevice(
             out LightIGameInputDevice device
         )
@@ -2880,6 +2943,27 @@ namespace SharpGameInput
         {
             return new(instance.DangerousGetHandle(), ownsHandle: false);
         }
+
+        public static bool operator ==(LightIGameInputRawDeviceReport left, LightIGameInputRawDeviceReport right)
+        {
+            // GameInput interfaces can be compared directly by pointer for equality
+            return left.handle == right.handle;
+        }
+
+        public static bool operator !=(LightIGameInputRawDeviceReport left, LightIGameInputRawDeviceReport right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputRawDeviceReport ptr)
+            => ptr == this;
+
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+        [Obsolete("Equals(object) on LightIGameInputRawDeviceReport will always throw an exception. Use the equality operator instead.", true)]
+        public override bool Equals(object? obj)
+            => throw new NotSupportedException();
+#pragma warning restore CS0809
+
+        public override int GetHashCode()
+            => handle.GetHashCode();
 
         public void GetDevice(
             out LightIGameInputDevice device

@@ -38,9 +38,11 @@ int methodIndex = 0;
 void DefineInterface(string name, Action makeMethods)
 {
 #>
-    public sealed unsafe partial class <#= name #> : GameInputComPtr
+    public sealed unsafe partial class <#= name #> : GameInputComPtr<<#= name #>>
     {
         internal <#= name #>(IntPtr handle, bool ownsHandle) : base(handle, ownsHandle) { }
+
+        protected override <#= name #> DuplicateImpl() => new(handle, true);
 <#
     methodIndex = 0;
     makeMethods();
@@ -60,21 +62,19 @@ void DefineLightInterface(string name, Action makeMethods)
         private bool ownsHandle;
 
         public bool IsInvalid => handle == IntPtr.Zero;
-        public bool IsClosed { get; private set; }
 
         internal Light<#= name #>(IntPtr handle, bool ownsHandle)
         {
             this.handle = handle;
             this.ownsHandle = ownsHandle;
-            IsClosed = false;
         }
 
         public void Dispose()
         {
-            if (!IsClosed && !IsInvalid && ownsHandle)
+            if (handle != IntPtr.Zero && ownsHandle)
             {
                 Marshal.Release(handle);
-                IsClosed = true;
+                handle = IntPtr.Zero;
             }
         }
 
@@ -82,9 +82,6 @@ void DefineLightInterface(string name, Action makeMethods)
 
         public <#= name #> ToSafeHandle()
         {
-            // Invalidate this handle
-            IsClosed = true;
-
             // Move handle to the new instance
             var handle = this.handle;
             this.handle = IntPtr.Zero;
@@ -247,7 +244,7 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
     string fnPtrType = $"delegate* unmanaged[Stdcall]<{string.Join(", ", fnPtrParams)}>";
 #>
         {
-            ThrowHelper.CheckDisposed(IsInvalid || IsClosed, "this");
+            ThrowHelper.CheckDisposed(IsInvalid, "this");
 <#
     foreach (var parameter in parameters)
     {
@@ -268,7 +265,7 @@ void _ForwardMethod(string accessibility, string returnType, string name, params
         else if (lightInterfaceTypes.Contains(type))
         {
 #>
-            ThrowHelper.CheckDisposed(<#= parameter.name #>.IsInvalid || <#= parameter.name #>.IsClosed, nameof(<#= parameter.name #>));
+            ThrowHelper.CheckDisposed(<#= parameter.name #>.IsInvalid, nameof(<#= parameter.name #>));
 <#
         }
         // Verify pointer types

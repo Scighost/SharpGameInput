@@ -25,12 +25,11 @@ internal class Program
             _startupTimestamp = gameInput.GetCurrentTimestamp();
 
             // List of available tests
-            List<(string name, Action<IGameInput> func)> tests =
+            (string name, Action<IGameInput> func)[] tests =
             [
                 ("Read Raw Reports", RawReportTest.Run),
                 ("Callbacks", CallbacksTest.Run),
             ];
-            string[] choices = tests.Select((i) => i.name).ToArray();
 
             // Don't pad the header on startup, but do after startup
             bool padHeader = false;
@@ -40,7 +39,7 @@ internal class Program
                 ConsoleUtility.WriteMenuHeader("GameInput Tests", padHeader);
                 padHeader = true;
 
-                int choice = ConsoleUtility.PromptChoice("Select a test", choices);
+                int choice = ConsoleUtility.PromptChoice("Select a test", tests.Select((i) => i.name));
                 if (choice < 0)
                     return;
 

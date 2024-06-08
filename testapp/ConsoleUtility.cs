@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace SharpGameInput.TestApp;
@@ -121,23 +122,27 @@ internal static class ConsoleUtility
     }
 
     public static int PromptChoice(string title, params string[] options)
+        => PromptChoice(title, (IEnumerable<string>)options);
+
+    public static int PromptChoice(string title, IEnumerable<string> options)
     {
         // Title
         Console.Write(title);
         Console.WriteLine(": ");
 
         // Options
+        int count = 0;
         Console.WriteLine($"0. Exit");
-        for (int i = 0; i < options.Length; i++)
+        foreach (string option in options)
         {
-            Console.WriteLine($"{i + 1}. " + options[i]);
+            Console.WriteLine($"{++count}. {option}");
         }
         Console.Write("Selection: ");
 
         while (true)
         {
             int selection = PromptChoice_ReadSelection() - 1;
-            if (selection < -1 || selection >= options.Length)
+            if (selection < -1 || selection >= count)
             {
                 Console.Write("Invalid selection, please try again: ");
                 continue;

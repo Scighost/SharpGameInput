@@ -115,7 +115,7 @@ namespace SharpGameInput
                 try
                 {
                     var token = new LightGameInputCallbackToken(this, _token);
-                    var device = new LightIGameInputDevice(_device, true);
+                    var device = new LightIGameInputDevice(_device, false);
                     callbackFunc(token, context, device, timestamp, currentStatus, previousStatus);
                 }
                 catch (Exception ex)
@@ -162,7 +162,7 @@ namespace SharpGameInput
                 try
                 {
                     var token = new LightGameInputCallbackToken(this, _token);
-                    var device = new LightIGameInputDevice(_device, true);
+                    var device = new LightIGameInputDevice(_device, false);
                     // callbackFunc(token, context, device, timestamp, isPressed);
                     callbackFunc(token, context, device, timestamp, currentState, previousState);
                 }
@@ -201,7 +201,7 @@ namespace SharpGameInput
                 try
                 {
                     var token = new LightGameInputCallbackToken(this, _token);
-                    var device = new LightIGameInputDevice(_device, true);
+                    var device = new LightIGameInputDevice(_device, false);
                     callbackFunc(token, context, device, timestamp, currentLayout, previousLayout);
                 }
                 catch (Exception ex)

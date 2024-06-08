@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpGameInput", "source\Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpGameInput.TestApp", "testapp\SharpGameInput.TestApp.csproj", "{02E28FFE-9CCA-47A0-B47D-33F54B86A7D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpGameInput.TestApp.Framework", "testapp_framework\SharpGameInput.TestApp.Framework.csproj", "{AADD2BB5-66ED-4E24-BFCF-B93DAF960AFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpGameInput.CompileCheck", "compile_tests\SharpGameInput.CompileCheck.csproj", "{AADD2BB5-66ED-4E24-BFCF-B93DAF960AFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpGameInput.Tests", "tests\SharpGameInput.Tests.csproj", "{953E3C5B-FE5F-46D3-87FF-15ED2628D888}"
 EndProject

@@ -57,14 +57,14 @@ namespace SharpGameInput
         }
 
         public int GetNextReading(
-            IGameInputReading referenceReading,
+            LightIGameInputReading referenceReading,
             GameInputKind inputKind,
             IGameInputDevice? device,
             out LightIGameInputReading reading
         )
         {
             ThrowHelper.CheckDisposed(IsInvalid, "this");
-            ThrowHelper.CheckHandle(referenceReading);
+            ThrowHelper.CheckDisposed(referenceReading.IsInvalid, nameof(referenceReading));
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -83,14 +83,14 @@ namespace SharpGameInput
         }
 
         public int GetPreviousReading(
-            IGameInputReading referenceReading,
+            LightIGameInputReading referenceReading,
             GameInputKind inputKind,
             IGameInputDevice? device,
             out LightIGameInputReading reading
         )
         {
             ThrowHelper.CheckDisposed(IsInvalid, "this");
-            ThrowHelper.CheckHandle(referenceReading);
+            ThrowHelper.CheckDisposed(referenceReading.IsInvalid, nameof(referenceReading));
 
             var thisPtr = handle;
             var vtable = *(void***)thisPtr;
@@ -916,11 +916,14 @@ namespace SharpGameInput
 
             return result;
         }
+
+        public bool Equals(LightIGameInputReading obj)
+            => obj == this;
     }
 
     public unsafe ref partial struct LightIGameInputReading
     {
-        private IntPtr handle;
+        internal IntPtr handle;
         private bool ownsHandle;
 
         public bool IsInvalid => handle == IntPtr.Zero;
@@ -961,11 +964,30 @@ namespace SharpGameInput
             return left.handle == right.handle;
         }
 
+        public static bool operator ==(IGameInputReading? left, LightIGameInputReading right)
+        {
+            return left?.handle == right.handle;
+        }
+
+        public static bool operator ==(LightIGameInputReading left, IGameInputReading? right)
+        {
+            return left.handle == right?.handle;
+        }
+
         public static bool operator !=(LightIGameInputReading left, LightIGameInputReading right)
             => !(left == right);
 
-        public bool Equals(LightIGameInputReading ptr)
-            => ptr == this;
+        public static bool operator !=(IGameInputReading? left, LightIGameInputReading right)
+            => !(left == right);
+
+        public static bool operator !=(LightIGameInputReading left, IGameInputReading? right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputReading obj)
+            => obj == this;
+
+        public bool Equals(IGameInputReading obj)
+            => obj == this;
 
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         [Obsolete("Equals(object) on LightIGameInputReading will always throw an exception. Use the equality operator instead.", true)]
@@ -1745,7 +1767,7 @@ namespace SharpGameInput
             void* inputBuffer,
             nuint outputBufferSize,
             void* outputBuffer,
-            out nuint outputSize
+            out nuint bytesReturned
         )
         {
             ThrowHelper.CheckDisposed(IsInvalid, "this");
@@ -1761,7 +1783,7 @@ namespace SharpGameInput
                 inputBuffer,
                 outputBufferSize,
                 outputBuffer,
-                out outputSize
+                out bytesReturned
             );
 
             return result;
@@ -1800,28 +1822,28 @@ namespace SharpGameInput
         }
 
         public int ExecuteRawDeviceIoControl(uint controlCode, byte[] inputBuffer, byte[] outputBuffer,
-            out nuint outputSize)
+            out nuint bytesReturned)
         {
             fixed (byte* inputPtr = inputBuffer)
             fixed (byte* outputPtr = outputBuffer)
                 return ExecuteRawDeviceIoControl(controlCode,
                     (nuint)inputBuffer.Length, inputPtr,
                     (nuint)outputBuffer.Length, outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
 
 #if NETSTANDARD2_1_OR_GREATER
         public int ExecuteRawDeviceIoControl(uint controlCode,
             scoped ReadOnlySpan<byte> inputBuffer, scoped Span<byte> outputBuffer,
-            out nuint outputSize)
+            out nuint bytesReturned)
         {
             fixed (byte* inputPtr = inputBuffer)
             fixed (byte* outputPtr = outputBuffer)
                 return ExecuteRawDeviceIoControl(controlCode,
                     (nuint)inputBuffer.Length, inputPtr,
                     (nuint)outputBuffer.Length, outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
 #endif
@@ -1837,19 +1859,19 @@ namespace SharpGameInput
                 );
         }
 
-        public int ExecuteRawDeviceIoControl<TOut>(uint controlCode, out TOut output, out nuint outputSize)
+        public int ExecuteRawDeviceIoControl<TOut>(uint controlCode, out TOut output, out nuint bytesReturned)
             where TOut : unmanaged
         {
             fixed (TOut* outputPtr = &output)
                 return ExecuteRawDeviceIoControl(controlCode,
                     0, null,
                     (nuint)sizeof(TOut), outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
 
         public int ExecuteRawDeviceIoControl<TIn, TOut>(uint controlCode, in TIn input, out TOut output,
-            out nuint outputSize)
+            out nuint bytesReturned)
             where TIn : unmanaged
             where TOut : unmanaged
         {
@@ -1858,14 +1880,17 @@ namespace SharpGameInput
                 return ExecuteRawDeviceIoControl(controlCode,
                     (nuint)sizeof(TIn), inputPtr,
                     (nuint)sizeof(TOut), outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
+
+        public bool Equals(LightIGameInputDevice obj)
+            => obj == this;
     }
 
     public unsafe ref partial struct LightIGameInputDevice
     {
-        private IntPtr handle;
+        internal IntPtr handle;
         private bool ownsHandle;
 
         public bool IsInvalid => handle == IntPtr.Zero;
@@ -1906,11 +1931,30 @@ namespace SharpGameInput
             return left.handle == right.handle;
         }
 
+        public static bool operator ==(IGameInputDevice? left, LightIGameInputDevice right)
+        {
+            return left?.handle == right.handle;
+        }
+
+        public static bool operator ==(LightIGameInputDevice left, IGameInputDevice? right)
+        {
+            return left.handle == right?.handle;
+        }
+
         public static bool operator !=(LightIGameInputDevice left, LightIGameInputDevice right)
             => !(left == right);
 
-        public bool Equals(LightIGameInputDevice ptr)
-            => ptr == this;
+        public static bool operator !=(IGameInputDevice? left, LightIGameInputDevice right)
+            => !(left == right);
+
+        public static bool operator !=(LightIGameInputDevice left, IGameInputDevice? right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputDevice obj)
+            => obj == this;
+
+        public bool Equals(IGameInputDevice obj)
+            => obj == this;
 
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         [Obsolete("Equals(object) on LightIGameInputDevice will always throw an exception. Use the equality operator instead.", true)]
@@ -2222,7 +2266,7 @@ namespace SharpGameInput
             void* inputBuffer,
             nuint outputBufferSize,
             void* outputBuffer,
-            out nuint outputSize
+            out nuint bytesReturned
         )
         {
             ThrowHelper.CheckDisposed(IsInvalid, "this");
@@ -2238,7 +2282,7 @@ namespace SharpGameInput
                 inputBuffer,
                 outputBufferSize,
                 outputBuffer,
-                out outputSize
+                out bytesReturned
             );
 
             return result;
@@ -2277,28 +2321,28 @@ namespace SharpGameInput
         }
 
         public int ExecuteRawDeviceIoControl(uint controlCode, byte[] inputBuffer, byte[] outputBuffer,
-            out nuint outputSize)
+            out nuint bytesReturned)
         {
             fixed (byte* inputPtr = inputBuffer)
             fixed (byte* outputPtr = outputBuffer)
                 return ExecuteRawDeviceIoControl(controlCode,
                     (nuint)inputBuffer.Length, inputPtr,
                     (nuint)outputBuffer.Length, outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
 
 #if NETSTANDARD2_1_OR_GREATER
         public int ExecuteRawDeviceIoControl(uint controlCode,
             scoped ReadOnlySpan<byte> inputBuffer, scoped Span<byte> outputBuffer,
-            out nuint outputSize)
+            out nuint bytesReturned)
         {
             fixed (byte* inputPtr = inputBuffer)
             fixed (byte* outputPtr = outputBuffer)
                 return ExecuteRawDeviceIoControl(controlCode,
                     (nuint)inputBuffer.Length, inputPtr,
                     (nuint)outputBuffer.Length, outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
 #endif
@@ -2314,19 +2358,19 @@ namespace SharpGameInput
                 );
         }
 
-        public int ExecuteRawDeviceIoControl<TOut>(uint controlCode, out TOut output, out nuint outputSize)
+        public int ExecuteRawDeviceIoControl<TOut>(uint controlCode, out TOut output, out nuint bytesReturned)
             where TOut : unmanaged
         {
             fixed (TOut* outputPtr = &output)
                 return ExecuteRawDeviceIoControl(controlCode,
                     0, null,
                     (nuint)sizeof(TOut), outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
 
         public int ExecuteRawDeviceIoControl<TIn, TOut>(uint controlCode, in TIn input, out TOut output,
-            out nuint outputSize)
+            out nuint bytesReturned)
             where TIn : unmanaged
             where TOut : unmanaged
         {
@@ -2335,7 +2379,7 @@ namespace SharpGameInput
                 return ExecuteRawDeviceIoControl(controlCode,
                     (nuint)sizeof(TIn), inputPtr,
                     (nuint)sizeof(TOut), outputPtr,
-                    out outputSize
+                    out bytesReturned
                 );
         }
     }
@@ -2520,11 +2564,14 @@ namespace SharpGameInput
             );
 
         }
+
+        public bool Equals(LightIGameInputForceFeedbackEffect obj)
+            => obj == this;
     }
 
     public unsafe ref partial struct LightIGameInputForceFeedbackEffect
     {
-        private IntPtr handle;
+        internal IntPtr handle;
         private bool ownsHandle;
 
         public bool IsInvalid => handle == IntPtr.Zero;
@@ -2565,11 +2612,30 @@ namespace SharpGameInput
             return left.handle == right.handle;
         }
 
+        public static bool operator ==(IGameInputForceFeedbackEffect? left, LightIGameInputForceFeedbackEffect right)
+        {
+            return left?.handle == right.handle;
+        }
+
+        public static bool operator ==(LightIGameInputForceFeedbackEffect left, IGameInputForceFeedbackEffect? right)
+        {
+            return left.handle == right?.handle;
+        }
+
         public static bool operator !=(LightIGameInputForceFeedbackEffect left, LightIGameInputForceFeedbackEffect right)
             => !(left == right);
 
-        public bool Equals(LightIGameInputForceFeedbackEffect ptr)
-            => ptr == this;
+        public static bool operator !=(IGameInputForceFeedbackEffect? left, LightIGameInputForceFeedbackEffect right)
+            => !(left == right);
+
+        public static bool operator !=(LightIGameInputForceFeedbackEffect left, IGameInputForceFeedbackEffect? right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputForceFeedbackEffect obj)
+            => obj == this;
+
+        public bool Equals(IGameInputForceFeedbackEffect obj)
+            => obj == this;
 
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         [Obsolete("Equals(object) on LightIGameInputForceFeedbackEffect will always throw an exception. Use the equality operator instead.", true)]
@@ -2925,11 +2991,14 @@ namespace SharpGameInput
 
             return result;
         }
+
+        public bool Equals(LightIGameInputRawDeviceReport obj)
+            => obj == this;
     }
 
     public unsafe ref partial struct LightIGameInputRawDeviceReport
     {
-        private IntPtr handle;
+        internal IntPtr handle;
         private bool ownsHandle;
 
         public bool IsInvalid => handle == IntPtr.Zero;
@@ -2970,11 +3039,30 @@ namespace SharpGameInput
             return left.handle == right.handle;
         }
 
+        public static bool operator ==(IGameInputRawDeviceReport? left, LightIGameInputRawDeviceReport right)
+        {
+            return left?.handle == right.handle;
+        }
+
+        public static bool operator ==(LightIGameInputRawDeviceReport left, IGameInputRawDeviceReport? right)
+        {
+            return left.handle == right?.handle;
+        }
+
         public static bool operator !=(LightIGameInputRawDeviceReport left, LightIGameInputRawDeviceReport right)
             => !(left == right);
 
-        public bool Equals(LightIGameInputRawDeviceReport ptr)
-            => ptr == this;
+        public static bool operator !=(IGameInputRawDeviceReport? left, LightIGameInputRawDeviceReport right)
+            => !(left == right);
+
+        public static bool operator !=(LightIGameInputRawDeviceReport left, IGameInputRawDeviceReport? right)
+            => !(left == right);
+
+        public bool Equals(LightIGameInputRawDeviceReport obj)
+            => obj == this;
+
+        public bool Equals(IGameInputRawDeviceReport obj)
+            => obj == this;
 
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         [Obsolete("Equals(object) on LightIGameInputRawDeviceReport will always throw an exception. Use the equality operator instead.", true)]

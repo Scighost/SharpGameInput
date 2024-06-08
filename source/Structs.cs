@@ -25,11 +25,11 @@ namespace SharpGameInput
         public static bool operator !=(APP_LOCAL_DEVICE_ID left, APP_LOCAL_DEVICE_ID right)
             => !(left == right);
 
-        public readonly bool Equals(APP_LOCAL_DEVICE_ID ptr)
-            => ptr == this;
+        public readonly bool Equals(APP_LOCAL_DEVICE_ID other)
+            => other == this;
 
         public readonly override bool Equals([NotNullWhen(true)] object? obj)
-            => obj is APP_LOCAL_DEVICE_ID ptr && Equals(ptr);
+            => obj is APP_LOCAL_DEVICE_ID other && Equals(other);
 
         public override int GetHashCode()
         {
@@ -635,37 +635,94 @@ namespace SharpGameInput
         public GameInputForceFeedbackEffectKind kind;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackConstantParams constant;
+        private GameInputForceFeedbackConstantParams _constant;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackRampParams ramp;
+        private GameInputForceFeedbackRampParams _ramp;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackPeriodicParams sineWave;
+        private GameInputForceFeedbackPeriodicParams _sineWave;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackPeriodicParams squareWave;
+        private GameInputForceFeedbackPeriodicParams _squareWave;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackPeriodicParams triangleWave;
+        private GameInputForceFeedbackPeriodicParams _triangleWave;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackPeriodicParams sawtoothUpWave;
+        private GameInputForceFeedbackPeriodicParams _sawtoothUpWave;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackPeriodicParams sawtoothDownWave;
+        private GameInputForceFeedbackPeriodicParams _sawtoothDownWave;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackConditionParams spring;
+        private GameInputForceFeedbackConditionParams _spring;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackConditionParams friction;
+        private GameInputForceFeedbackConditionParams _friction;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackConditionParams damper;
+        private GameInputForceFeedbackConditionParams _damper;
 
         [FieldOffset(4)]
-        public GameInputForceFeedbackConditionParams inertia;
+        private GameInputForceFeedbackConditionParams _inertia;
+
+        private void CheckType(GameInputForceFeedbackEffectKind type)
+        {
+            if (kind != type)
+                throw new InvalidOperationException("Attempted to access an incorrect force feedback type.");
+        }
+
+        private ref T CheckType<T>(GameInputForceFeedbackEffectKind type, ref T value)
+            where T : unmanaged
+        {
+            CheckType(type);
+            return ref value;
+        }
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackConstantParams constant
+            => ref CheckType(GameInputForceFeedbackEffectKind.Constant, ref _constant);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackRampParams ramp
+            => ref CheckType(GameInputForceFeedbackEffectKind.Ramp, ref _ramp);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackPeriodicParams sineWave
+            => ref CheckType(GameInputForceFeedbackEffectKind.SineWave, ref _sineWave);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackPeriodicParams squareWave
+            => ref CheckType(GameInputForceFeedbackEffectKind.SquareWave, ref _squareWave);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackPeriodicParams triangleWave
+            => ref CheckType(GameInputForceFeedbackEffectKind.TriangleWave, ref _triangleWave);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackPeriodicParams sawtoothUpWave
+            => ref CheckType(GameInputForceFeedbackEffectKind.SawtoothUpWave, ref _sawtoothUpWave);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackPeriodicParams sawtoothDownWave
+            => ref CheckType(GameInputForceFeedbackEffectKind.SawtoothDownWave, ref _sawtoothDownWave);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackConditionParams spring
+            => ref CheckType(GameInputForceFeedbackEffectKind.Spring, ref _spring);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackConditionParams friction
+            => ref CheckType(GameInputForceFeedbackEffectKind.Friction, ref _friction);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackConditionParams damper
+            => ref CheckType(GameInputForceFeedbackEffectKind.Damper, ref _damper);
+
+        [UnscopedRef]
+        public ref GameInputForceFeedbackConditionParams inertia
+            => ref CheckType(GameInputForceFeedbackEffectKind.Inertia, ref _inertia);
     }
 
     [StructLayout(LayoutKind.Sequential)]

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace SharpGameInput
@@ -45,10 +46,10 @@ namespace SharpGameInput
         uint previousLayout
     );
 
-    public class GameInputCallbackToken
+    public class GameInputCallbackToken : IEquatable<GameInputCallbackToken>
     {
         private IGameInput? _gameInput;
-        private readonly ulong _callbackToken;
+        internal readonly ulong _callbackToken;
 
         public GameInputCallbackToken(IGameInput gameInput, ulong callbackToken)
         {
@@ -101,12 +102,39 @@ namespace SharpGameInput
             _gameInput = null;
             return true;
         }
+
+        public static bool operator ==(GameInputCallbackToken? left, GameInputCallbackToken? right)
+        {
+            if (ReferenceEquals(left, right))
+                return true;
+
+            if (left is null || right is null)
+                return false;
+
+            // GameInput interfaces can be compared directly by pointer for equality
+            return left._callbackToken == right._callbackToken;
+        }
+
+        public static bool operator !=(GameInputCallbackToken? left, GameInputCallbackToken? right)
+            => !(left == right);
+
+        public bool Equals([NotNullWhen(true)] GameInputCallbackToken? obj)
+            => obj == this;
+
+        public bool Equals(LightGameInputCallbackToken obj)
+            => obj == this;
+
+        public override bool Equals([NotNullWhen(true)] object? obj)
+            => obj is GameInputCallbackToken other && Equals(other);
+
+        public override int GetHashCode()
+            => _callbackToken.GetHashCode();
     }
 
     public ref struct LightGameInputCallbackToken
     {
         private readonly IGameInput _gameInput;
-        private readonly ulong _callbackToken;
+        internal readonly ulong _callbackToken;
 
         public LightGameInputCallbackToken(IGameInput gameInput, ulong callbackToken)
         {
@@ -124,6 +152,45 @@ namespace SharpGameInput
         {
             _gameInput.StopCallback(_callbackToken);
         }
+
+        public static bool operator ==(LightGameInputCallbackToken left, LightGameInputCallbackToken right)
+        {
+            return left._callbackToken == right._callbackToken;
+        }
+
+        public static bool operator ==(GameInputCallbackToken? left, LightGameInputCallbackToken right)
+        {
+            return left?._callbackToken == right._callbackToken;
+        }
+
+        public static bool operator ==(LightGameInputCallbackToken left, GameInputCallbackToken? right)
+        {
+            return left._callbackToken == right?._callbackToken;
+        }
+
+        public static bool operator !=(LightGameInputCallbackToken left, LightGameInputCallbackToken right)
+            => !(left == right);
+
+        public static bool operator !=(GameInputCallbackToken? left, LightGameInputCallbackToken right)
+            => !(left == right);
+
+        public static bool operator !=(LightGameInputCallbackToken left, GameInputCallbackToken? right)
+            => !(left == right);
+
+        public bool Equals(LightGameInputCallbackToken obj)
+            => obj == this;
+
+        public bool Equals(GameInputCallbackToken obj)
+            => obj == this;
+
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
+        [Obsolete("Equals(object) on LightGameInputCallbackToken will always throw an exception. Use the equality operator instead.", true)]
+        public override bool Equals(object? obj)
+            => throw new NotSupportedException();
+#pragma warning restore CS0809
+
+        public override int GetHashCode()
+            => _callbackToken.GetHashCode();
     }
 
     public ref struct CallbackTokenDisposer

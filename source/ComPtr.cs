@@ -10,7 +10,7 @@ namespace SharpGameInput
         IEquatable<GameInputComPtr<TInterface>>
         where TInterface : GameInputComPtr<TInterface>
     {
-        protected IntPtr handle;
+        protected internal IntPtr handle;
         private readonly bool ownsHandle;
 
         public bool IsInvalid => handle == IntPtr.Zero;

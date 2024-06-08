@@ -23,7 +23,11 @@ namespace SharpGameInput
 
         ~GameInputComPtr() => Dispose(false);
 
-        public void Dispose() => Dispose(true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         private void Dispose(bool disposing)
         {

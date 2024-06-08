@@ -92,7 +92,7 @@ void DefineLightInterface(string name, Action makeMethods)
 
         public IntPtr DangerousGetHandle() => handle;
 
-        public <#= name #> ToSafeHandle()
+        public <#= name #> ToComPtr()
         {
             // Move handle to the new instance
             var handle = this.handle;

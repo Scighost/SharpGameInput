@@ -51,7 +51,7 @@ namespace SharpGameInput.TestApp
                 null,
                 (token, context, _device, timestamp, currentStatus, previousStatus) =>
                 {
-                    var device = _device.ToSafeHandle();
+                    var device = _device.ToComPtr();
                     if ((currentStatus & GameInputDeviceStatus.Connected) != 0)
                     {
                         device = device.Duplicate();

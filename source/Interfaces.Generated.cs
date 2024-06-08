@@ -945,7 +945,7 @@ namespace SharpGameInput
 
         public IntPtr DangerousGetHandle() => handle;
 
-        public IGameInputReading ToSafeHandle()
+        public IGameInputReading ToComPtr()
         {
             // Move handle to the new instance
             var handle = this.handle;
@@ -1912,7 +1912,7 @@ namespace SharpGameInput
 
         public IntPtr DangerousGetHandle() => handle;
 
-        public IGameInputDevice ToSafeHandle()
+        public IGameInputDevice ToComPtr()
         {
             // Move handle to the new instance
             var handle = this.handle;
@@ -2593,7 +2593,7 @@ namespace SharpGameInput
 
         public IntPtr DangerousGetHandle() => handle;
 
-        public IGameInputForceFeedbackEffect ToSafeHandle()
+        public IGameInputForceFeedbackEffect ToComPtr()
         {
             // Move handle to the new instance
             var handle = this.handle;
@@ -3020,7 +3020,7 @@ namespace SharpGameInput
 
         public IntPtr DangerousGetHandle() => handle;
 
-        public IGameInputRawDeviceReport ToSafeHandle()
+        public IGameInputRawDeviceReport ToComPtr()
         {
             // Move handle to the new instance
             var handle = this.handle;

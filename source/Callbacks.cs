@@ -139,7 +139,9 @@ namespace SharpGameInput
         public LightGameInputCallbackToken(IGameInput gameInput, ulong callbackToken)
         {
             ThrowHelper.CheckNull(gameInput);
-            if (callbackToken is GameInput.InvalidCallbackToken or GameInput.CurrentCallbackToken)
+            // CurrentCallbackToken is not invalid here, as it's passed when doing
+            // GameInputEnumerationKind.BlockingEnumeration on RegisterDeviceCallback
+            if (callbackToken is GameInput.InvalidCallbackToken /*or GameInput.CurrentCallbackToken*/)
                 throw new ArgumentException("The given token is invalid.", nameof(callbackToken));
 
             _gameInput = gameInput;

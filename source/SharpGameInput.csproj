@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <LangVersion>11</LangVersion> <!-- For function pointers and `scoped` -->
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+    <LangVersion>12</LangVersion> <!-- For function pointers, `scoped`, and `using` type aliases -->
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

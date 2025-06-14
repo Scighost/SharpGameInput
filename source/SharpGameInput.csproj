@@ -1,23 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
-    <LangVersion>12</LangVersion> <!-- For function pointers, `scoped`, and `using` type aliases -->
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <AssemblyName>SharpGameInput</AssemblyName>
-    <AssemblyTitle>$(AssemblyName)</AssemblyTitle>
-    <Product>$(AssemblyName)</Product>
+    <PackageId>Starward.GameInput</PackageId>
     <Version>0.2.0</Version>
-    <Description>C# interop bindings for GameInput.</Description>
-    <Authors>Nathan Hurst</Authors>
-    <Copyright>Copyright (c) 2024 $(Authors)</Copyright>
-    <RepositoryUrl>https://github.com/TheNathannator/SharpGameInput</RepositoryUrl>
-    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Forked from https://github.com/TheNathannator/SharpGameInput 6ecf993.</Description>
   </PropertyGroup>
 
   <ItemGroup>
